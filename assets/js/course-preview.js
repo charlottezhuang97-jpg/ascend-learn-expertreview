@@ -47,15 +47,22 @@ const courses = {
     peers:[['NPU_Leo','完成 Kernel 实现',35,'male'],['林深见鹿','适配动态输入',60,'female-left'],['KernelCat','工程化与入图',78,'female-right']],peerTotal:'860+',proofIntro:'已在 CANN 8.0.RC3、Ascend 910B 环境复现 Kernel、Tiling、编译与单算子调用流程。',proof:[['16','个真实复现案例','▤'],['10','项关键指标已核验','▥']],proofVersion:'适用 CANN 8.0.RC3 · 最近验证 2026.09'
   },
   inference:{
-    title:'大模型推理服务部署',summary:'完成从模型准备、推理适配到服务化部署、压测调优与上线验收的完整链路。',previewTitle:'完成一次可上线的推理服务部署',intro:'围绕 MindIE 服务化场景，逐步完成模型检查、量化适配、服务配置、并发压测、性能定位和异常恢复。',meta:['8 单元','约 11 小时','3 个实战','适合：了解模型推理基础'],outcome:'部署可调用的推理服务，保存精度、吞吐、时延和异常诊断证据。',
+    title:'文本生成推理课程',
+    summary:'从生成式 AI 基础出发，认识昇腾软硬件平台，并在 MindIE 中完成文本生成推理实验。',
+    previewTitle:'完成一次文本生成推理实验',
+    intro:'先理解生成式 AI 与昇腾平台，再通过 MindIE 文本生成实验完成推理快速入门。',
+    meta:['2 章节','5 小节','约 3 小时','适合：希望入门模型推理的开发者'],
+    outcome:'沿预训练、微调、模型适配内容学习，实践了解数据处理、权重转换、训练和评估等操作。',
     stages:[
-      {title:'准备模型与环境',unitRange:'单元 1–2',reason:'先明确模型结构、硬件与软件版本，才能选择转换、量化和服务配置。',units:[['课程','单元 1：大模型推理服务全景','26 分钟'],['实践','单元 2：模型与 Ascend 环境检查','34 分钟']]},
-      {title:'完成推理适配',unitRange:'单元 3–4',reason:'模型转换与量化效果通过校验后，服务端才能稳定加载并返回可信结果。',units:[['课程','单元 3：模型转换、量化与精度校验','38 分钟'],['实践','单元 4：MindIE 模型加载与首请求','45 分钟']]},
-      {title:'部署在线服务',unitRange:'单元 5–6',reason:'先完成服务配置和健康检查，再用真实请求验证并发、流式输出和容错。',units:[['课程','单元 5：MindIE Service 配置与接口','32 分钟'],['实践','单元 6：并发请求与流式输出','46 分钟']]},
-      {title:'定位性能瓶颈',unitRange:'单元 7',reason:'采集关键过程时间点后，结合吞吐、首 Token 时延和显存判断瓶颈位置。',units:[['课程','单元 7：服务化 Profiling 与性能分析','40 分钟']]},
-      {title:'压测与上线验收',unitRange:'单元 8',reason:'在目标并发下完成指标、异常恢复与配置归档，形成可复现的上线依据。',units:[['实践','单元 8：推理服务压测与故障演练','58 分钟']]}
+      {title:'推理基础',unitRange:'章节 1',reason:'了解生成式 AI、昇腾平台及典型应用，为文本生成推理实验建立基础。',units:[
+        {number:1,title:'生成式AI基础知识',description:'从基本概念到昇腾平台应用，建立生成式 AI 的整体认识。',lessons:[['课程','生成式AI概述','20 分钟'],['课程','昇腾AI基础软硬件平台','20 分钟'],['课程','生成式AI在昇腾平台上的应用案例','20 分钟'],['课程','生成式AI展望','15 分钟']]}
+      ]},
+      {title:'基于MindIE的生成式AI入门',unitRange:'章节 2',reason:'通过文本生成推理快速入门，完成一次 MindIE 实验。',units:[
+        {number:1,title:'文本生成推理快速入门',description:'在实验环境中依次完成准备、推理请求与结果查看。',lessons:[['实践','文本生成实验','90 分钟']]}
+      ]}
     ],
-    peers:[['NPU_Leo','完成推理适配',35,'male'],['林深见鹿','部署在线服务',60,'female-left'],['KernelCat','定位性能瓶颈',78,'female-right']],peerTotal:'730+',proofIntro:'已在 Ascend 910B、MindIE 2.1 环境复现模型加载、服务请求与性能采集流程。',proof:[['21','个真实复现案例','▤'],['14','项关键指标已核验','▥']],proofVersion:'适用 MindIE 2.1 · 最近验证 2026.09'
+    peers:[['NPU_Leo','推理基础',0,'male'],['林深见鹿','文本生成实验',0,'female-left'],['KernelCat','文本生成实验',0,'female-right']],
+    peerTotal:'730+',proofIntro:'MindIE 文本生成实验提供示例环境和逐步操作。',proof:[['1','项推理实验','▤'],['2','个学习章节','▥']],proofVersion:'MindIE 实验 · 学习示例'
   },
   agent:{
     title:'RAG 智能体应用开发',summary:'完成从知识库构建、工具调用到应用评估纠错的完整链路。',previewTitle:'完成一个可评估的 RAG 智能体应用',intro:'先区分检索、生成和工具调用，再搭建可评估、可纠错的应用工作流。',meta:['6 单元','约 8 小时','1 个项目','适合：有 Python 基础'],outcome:'构建可检索、可调用工具并能够评估纠错的 RAG 应用。',
@@ -70,7 +77,15 @@ if (document.getElementById('stageNav')) {
 const courseKey = new URLSearchParams(location.search).get('course') || 'training';
 const course = courses[courseKey] || courses.training;
 const startLink=document.querySelector('.start-button');
-if(startLink)startLink.href=courseKey==='inference'?'learn.html?course=mindie&from=inference&view=board':'learn.html?course='+encodeURIComponent(courseKey)+'&unit=1-1';
+if(startLink)startLink.href=`learn.html?course=${encodeURIComponent(courseKey==='inference'?'mindie':courseKey)}&unit=1-1`;
+if(courseKey==='inference'){
+  document.body.classList.add('inference-course');
+  document.querySelector('.custom-plan-card')?.remove();
+  const progress=document.querySelector('.learning-progress-block');
+  progress.querySelector('.progress-head strong span').textContent='0%';
+  progress.querySelector('.progress-head>span').textContent='已学 0 / 5 课时';
+  progress.querySelector('.progress-track').setAttribute('aria-valuenow','0');
+}
 const setText = (selector,value)=>document.querySelectorAll(selector).forEach(el=>el.textContent=value);
 setText('[data-course-title]',course.title);
 setText('[data-course-summary]',course.summary);
@@ -87,39 +102,44 @@ if(meta)meta.replaceChildren(...[`${course.stages.length} 课程模块`,...cours
 
 const nav=document.querySelector('#stageNav');
 const route=document.querySelector('#courseRoute');
-course.stages.forEach((stage,index)=>{
-  const selected=index===0;
-  const navItem=document.createElement('li');
-  navItem.innerHTML=`<button type="button" data-stage-index="${index}" aria-controls="courseRoute" aria-pressed="${selected}" ${selected?'aria-current="step"':''}><span class="stage-number">${index+1}</span><span><strong>${escapeHtml(stage.title)}</strong><small>${escapeHtml(stage.unitRange)}</small></span><span class="stage-chevron" aria-hidden="true">›</span></button>`;
-  nav.append(navItem);
-});
-
 const normalizeUnit=(raw,fallbackNumber)=>Array.isArray(raw)
   ? {number:fallbackNumber,title:raw[1].replace(/^单元\s*\d+[：:]\s*/,''),description:'完成本单元内容并进入对应课节学习。',lessons:[raw]}
   : raw;
-
-const renderStage=index=>{
-  const stage=course.stages[index];
+const kindIcon={课程:'⊙',实践:'▧',测验:'♙'};
+const kindResource={课程:'视频课节',实践:'动手实践',测验:'单元测验'};
+let lessonCount=0;
+let unitCount=0;
+let resourceItems=[];
+const moduleRoman=['一','二','三','四','五','六','七','八'];
+const timelineBookIcon='<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 8.2c-3.9-2.7-8-2.9-12-2.4v17.5c4-.5 8.1-.3 12 2.4 3.9-2.7 8-2.9 12-2.4V5.8c-4-.5-8.1-.3-12 2.4Z"/><path d="M16 8.2v17.5M20 11.2h5M20 15h5M20 18.8h4"/></svg>';
+nav.innerHTML=course.stages.map((stage,index)=>{
+  const selected=index===0;
   const previousUnits=course.stages.slice(0,index).reduce((count,item)=>count+item.units.length,0);
-  const units=stage.units.map((unit,unitIndex)=>normalizeUnit(unit,previousUnits+unitIndex+1));
-  setText('[data-active-stage-title]',`模块 ${index+1} · ${stage.title}`);
-  setText('[data-stage-reason]',stage.reason);
-  const lessonTotal=units.reduce((count,unit)=>count+unit.lessons.length,0);
-  setText('[data-stage-count]',`${units.length} 个单元 · ${lessonTotal} 个课节`);
-  route.innerHTML=units.map(unit=>{
-    const lessons=unit.lessons.map(([kind,title,duration],lessonIndex)=>{const lessonHref=courseKey==='inference'&&kind==='实践'?'learn.html?course=mindie&from=inference&view=board':'learn.html?course='+encodeURIComponent(courseKey)+'&unit='+unit.number+'-'+(lessonIndex+1);return `<li class="stage-unit lesson-row" data-kind="${escapeHtml(kind)}"><span class="unit-kind-icon" aria-hidden="true"></span><span class="kind-label">${escapeHtml(kind)}</span><span class="unit-title">${escapeHtml(title)}</span><span class="unit-duration">${escapeHtml(duration)}</span><a class="unit-play" href="${lessonHref}" aria-label="开始课节：${escapeHtml(title)}">▶</a></li>`}).join('');
-    return `<li class="unit-card"><div class="unit-card-head"><span class="unit-card-number">${unit.number}</span><div><span class="unit-card-kicker">单元 ${unit.number}</span><h4>${escapeHtml(unit.title)}</h4><p>${escapeHtml(unit.description)}</p></div><span class="unit-card-meta">${unit.lessons.length} 个课节</span></div><ol class="lesson-list" aria-label="单元 ${unit.number} 的课节">${lessons}</ol></li>`;
+  const units=stage.units.map((raw,unitIndex)=>normalizeUnit(raw,previousUnits+unitIndex+1));
+  unitCount+=units.length;
+  const count=units.reduce((sum,unit)=>sum+unit.lessons.length,0);
+  lessonCount+=count;
+  const unitRows=units.map(unit=>{
+    const lessons=unit.lessons.map(([kind,title,duration],lessonIndex)=>{
+      resourceItems.push({kind,title,duration,unit:unit.number});
+      return `<li class="stage-unit lesson-row" data-kind="${escapeHtml(kind)}"><a class="lesson-link" href="learn.html?course=${encodeURIComponent(courseKey==='inference'?'mindie':courseKey)}&unit=${unit.number}-${lessonIndex+1}"><span class="lesson-play" aria-hidden="true">⊙</span><span class="lesson-number">${lessonIndex+1}.</span><span class="unit-title">${escapeHtml(title)}</span><span class="unit-duration">${escapeHtml(duration)}</span><span class="lesson-status" aria-hidden="true"></span></a></li>`;
+    }).join('');
+    const heading=units.length>1||courseKey==='inference'?`<div class="unit-card-head"><span class="unit-card-number">${unit.number}</span><div><h4>${escapeHtml(unit.title)}</h4><p>${escapeHtml(unit.description)}</p></div></div>`:'';
+    return `<li class="unit-card">${heading}<ol class="lesson-list" aria-label="单元 ${unit.number} 的课节">${lessons}</ol></li>`;
   }).join('');
-};
+  const phase=index===0?'理论篇':courseKey==='inference'?'实践篇':index===course.stages.length-1?'微认证':'实践篇';
+  const start=index===0?`<a class="module-start" href="learn.html?course=${encodeURIComponent(courseKey==='inference'?'mindie':courseKey)}&unit=${units[0]?.number||1}-1">从这开始学</a>`:'';
+  return `<li class="module-item"><span class="timeline-node" aria-hidden="true">${timelineBookIcon}</span><article class="module-card"><div class="module-card-heading"><div class="module-heading-top"><span class="module-kicker">章节${moduleRoman[index]||index+1}：${phase}</span><div class="module-heading-actions"><span class="module-meta">${count}项学习内容</span><button type="button" class="module-toggle" data-stage-index="${index}" aria-controls="module-content-${index}" aria-expanded="true" aria-pressed="${selected}" ${selected?'aria-current="step"':''}>收起⌃</button></div></div><h3>${escapeHtml(stage.title)}</h3><p>${escapeHtml(stage.reason)}</p>${start}</div><div class="module-content" id="module-content-${index}"><ol class="module-units" aria-label="${escapeHtml(stage.title)}课程内容">${unitRows}</ol>${index===course.stages.length-1&&courseKey!=='inference'?'<p class="module-certificate">完成课程学习并通过考核后，可获得课程认证。</p>':''}</div></article></li>`;
+}).join('');
+const totalLessons=course.stages.reduce((sum,stage)=>sum+stage.units.reduce((inner,raw,index)=>inner+normalizeUnit(raw,index+1).lessons.length,0),0);
+const curriculumTotal=document.querySelector('#curriculumTotal');
+if(curriculumTotal)curriculumTotal.textContent=`${unitCount} 个单元 · ${totalLessons} 项学习内容`;
+document.querySelector('#resourceCount').textContent=String(resourceItems.length);
+setText('[data-route-outcome]',course.outcome);
+const outcomeList=document.querySelector('#outcomeList');
+outcomeList.innerHTML=(courseKey==='inference'?[{title:course.outcome}]:course.stages.slice(0,3)).map((stage,index)=>`<li><span aria-hidden="true">✓</span><span>${escapeHtml(courseKey==='inference'?stage.title:index===0?`理解${stage.title}的核心概念`:index===1?`完成${stage.title}相关实践`:`掌握${stage.title}并验证学习成果`)}</span></li>`).join('');
+if(route)route.hidden=true;
 
-const avatarMap={
-  male:['assets/images/avatars/avatar-male.png','avatar-single'],
-  'female-left':['assets/images/avatars/avatar-female.png','avatar-single'],
-  'female-right':['assets/images/avatars/avatar-female.png','avatar-single']
-};
-const peerList=document.querySelector('#peerList');
-peerList.innerHTML=course.peers.map(([name,stage,progress,avatarKey])=>{const [src,className]=avatarMap[avatarKey]||avatarMap.male;return `<article class="peer-row"><span class="peer-avatar"><img src="${src}" class="${className}" alt="${escapeHtml(name)} 的头像"></span><div><b class="peer-name">${escapeHtml(name)}</b><p class="peer-stage">课程进度 ${Number(progress)}% · 正在学习“${escapeHtml(stage)}”</p><div class="peer-progress" role="progressbar" aria-label="${escapeHtml(name)} 的课程进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Number(progress)}"><span class="peer-progress-track"><span class="peer-progress-fill" style="width:${Number(progress)}%"></span></span></div></div></article>`;}).join('');
-document.querySelector('#proofMetrics').innerHTML=course.proof.map(([value,label,icon])=>`<div class="proof-metric"><span class="metric-icon" aria-hidden="true">${escapeHtml(icon)}</span><span><b>${escapeHtml(value)}</b><span>${escapeHtml(label)}</span></span></div>`).join('');
 
 const activateStage=index=>{
   document.querySelectorAll('[data-stage-index]').forEach(button=>{
@@ -127,16 +147,17 @@ const activateStage=index=>{
     button.toggleAttribute('aria-current',active);
     button.setAttribute('aria-pressed',String(active));
   });
-  renderStage(index);
 };
 
 document.querySelectorAll('[data-stage-index]').forEach(button=>button.addEventListener('click',()=>{
-  const index=Number(button.dataset.stageIndex);
-  activateStage(index);
-  if(window.innerWidth<980)document.querySelector('.stage-roadmap')?.scrollIntoView({behavior:'smooth',block:'start'});
+  const expanded=button.getAttribute('aria-expanded')==='true';
+  const content=document.getElementById(button.getAttribute('aria-controls'));
+  button.setAttribute('aria-expanded',String(!expanded));
+  if(content)content.hidden=expanded;
+  activateStage(Number(button.dataset.stageIndex));
+  const firstLesson=content?.querySelector('.lesson-link');
+  if(firstLesson){const start=document.querySelector('.module-start');if(start)start.href=firstLesson.href;}
 }));
-
-renderStage(0);
 
 document.querySelector('#planButton')?.addEventListener('click',event=>{
   const button=event.currentTarget;
@@ -144,5 +165,54 @@ document.querySelector('#planButton')?.addEventListener('click',event=>{
   button.dataset.joined=String(!joined);
   button.innerHTML=joined?'＋ <span>加入计划</span>':'✓ <span>已加入计划</span>';
   button.setAttribute('aria-pressed',String(!joined));
+});
+document.querySelector('#customPlanButton')?.addEventListener('click',()=>document.querySelector('#planButton')?.click());
+document.querySelectorAll('[data-toggle-panel]').forEach(button=>button.addEventListener('click',()=>{
+  const panel=document.getElementById(button.dataset.togglePanel);
+  const expanded=button.getAttribute('aria-expanded')==='true';
+  if(panel)panel.hidden=expanded;
+  button.setAttribute('aria-expanded',String(!expanded));
+  button.innerHTML=expanded?'展开 <span aria-hidden="true">⌄</span>':'收起 <span aria-hidden="true">⌃</span>';
+}));
+const reviewsTab=document.querySelector('#reviewsTab');
+const resourcesTab=document.querySelector('#resourcesTab');
+const reviewsContent=document.querySelector('#reviewsContent');
+const reviewResources=document.querySelector('#reviewResources');
+function setReviewTab(resource,moveFocus=true){
+  reviewsTab.setAttribute('aria-selected',String(!resource));
+  resourcesTab.setAttribute('aria-selected',String(resource));
+  reviewsContent.hidden=false;
+  reviewResources.hidden=!resource;
+  reviewsContent.setAttribute('aria-labelledby',resource?'resourcesTab':'reviewsTab');
+  if(moveFocus)(resource?resourcesTab:reviewsTab).focus({preventScroll:true});
+}
+reviewsTab.addEventListener('click',()=>setReviewTab(false,false));
+resourcesTab.addEventListener('click',()=>setReviewTab(true,false));
+[reviewsTab,resourcesTab].forEach((tab,index)=>tab.addEventListener('keydown',event=>{
+  if(event.key==='ArrowRight'||event.key==='ArrowLeft'){
+    event.preventDefault();setReviewTab(index===0,true);
+  }
+}));
+document.querySelector('#resourceList').innerHTML=resourceItems.map(item=>`<li><span>▤ ${escapeHtml(item.title)}</span><small>${escapeHtml(kindResource[item.kind]||item.kind)} · 单元 ${item.unit} · ${escapeHtml(item.duration)}</small></li>`).join('');
+const reviewSamples=[
+  ['杰克马','4.0','2026-10-20 11:54','哦~ 这真是个不错的课程，对我的学习很有帮助。'],
+  ['张敏峰','3.5','2026-10-20 10:20','很棒的课程！我喜欢浅显易懂的方式讲解概念。实践课也帮助我把理论用起来。']
+];
+const reviewList=document.querySelector('#reviewList');
+function addReview(name,message,time){
+  const article=document.createElement('article');article.className='review-item';
+  const head=document.createElement('div');head.className='review-head';
+  const author=document.createElement('strong');author.textContent=name;
+  const rating=document.createElement('span');rating.className='review-stars';rating.textContent='★★★★★';
+  const date=document.createElement('time');date.textContent=time;
+  head.append(author,rating,date);
+  const body=document.createElement('p');body.textContent=message;
+  const actions=document.createElement('div');actions.className='review-reactions';actions.innerHTML='<span>♡ 有帮助</span><span>回复</span>';
+  article.append(head,body,actions);reviewList.append(article);
+}
+reviewSamples.forEach(item=>addReview(...item));
+document.querySelector('#reviewForm').addEventListener('submit',event=>{
+  event.preventDefault();const input=event.currentTarget.elements.review;const message=input.value.trim();if(!message)return;
+  addReview('我',message,'刚刚');input.value='';document.querySelector('#reviewFeedback').textContent='评论已加入本页预览。发布服务尚未连接。';
 });
 }

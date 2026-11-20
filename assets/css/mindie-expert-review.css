@@ -1,0 +1,52 @@
+.mindie-course .expert-board-copy{padding:22px 32px 60px;color:#222;max-width:1040px;margin:auto}
+.mindie-course .expert-board-copy>span{color:#8e929a;font-size:12px;letter-spacing:.08em}
+.mindie-course .expert-board-copy h2{color:#bb0808;font-size:clamp(27px,3vw,48px);font-weight:400;margin:14px 0 25px}
+.mindie-course .expert-board-copy ul{margin:0;padding-left:23px;display:grid;gap:16px;font-size:clamp(17px,1.5vw,24px);line-height:1.7}
+.mindie-course .expert-board-copy li::marker{color:#999}
+.mindie-course .expert-board-figure{margin:28px 0 0;text-align:center}
+.mindie-course .expert-board-figure img{max-width:100%;max-height:430px;object-fit:contain}
+.mindie-course .video-stage{background:#fff}
+.mindie-course #videoWorkspace .video-stage>img{object-fit:contain;background:#fff}
+.mindie-course #videoWorkspace .video-stage .teacher-subtitle{background:#fffffff0;color:#35393e;border:1px solid #e6e6e6}
+.mindie-course .mindie-board-track .expert-node{position:absolute;top:50%;display:grid;place-items:center;width:26px!important;height:26px;transform:translate(-50%,-50%);border:1px solid #d4def0!important;border-radius:50%!important;background:#fff!important;color:#476bb2!important;cursor:pointer}
+.mindie-course .mindie-board-track .expert-node svg{width:15px;height:15px}
+.mindie-course .mindie-board-track .expert-node.note{color:#856ec5!important}
+.mindie-course .mindie-board-track .expert-node.practice{color:#18846d!important;border-color:#9ddacb!important}
+.mindie-course .mindie-progress-line{touch-action:none}
+.expert-node-preview{position:fixed;z-index:180;width:320px;overflow:hidden;border:1px solid #dfe5ef;border-radius:12px;background:#fff;box-shadow:0 12px 36px #27364c30;color:#29313e;font-size:12px;pointer-events:none}
+.expert-node-preview img{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#fff}
+.expert-node-preview>div{padding:10px 14px 13px}
+.expert-node-preview small{display:block;color:#7282a0;margin-bottom:3px}
+.expert-node-preview strong{display:block;font-size:14px}
+.expert-node-preview p{margin:4px 0 0;line-height:1.55;color:#677286}
+.mindie-course .mindie-bottom-stack:has(.expert-command-card){grid-template-rows:auto minmax(0,1fr)}
+.expert-command-card{max-height:210px;overflow:auto;padding:10px 14px;border-top:1px solid #344156;background:#18253a;color:#dce8fa;font-size:11px}
+.expert-acceptance{padding:9px 11px;margin-bottom:9px;border:1px solid #3a8268;border-radius:8px;background:#1d4539;color:#d4f9e6}
+.expert-acceptance strong{display:block;font-size:12px}
+.expert-acceptance p{margin:5px 0;font-size:11px;line-height:1.5}
+.expert-acceptance small{color:#a9d8c5}
+.expert-command-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.expert-command-heading button{padding:4px 9px;border:1px solid #76a4ea;border-radius:5px;background:#233f66;color:#e3efff;font-size:11px}
+.expert-command-card pre{margin:6px 0 0;white-space:pre-wrap;font:11px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#ced9eb}
+@media(max-width:800px){.mindie-course .expert-board-copy{padding:16px}.mindie-course .expert-board-copy ul{font-size:16px}.expert-node-preview{width:min(300px,calc(100vw - 24px))}}
+.mindie-course .iv-video-art .iv-default-cover,.mindie-course .iv-video-art .iv-subtitle-cover{left:0;top:0;width:100%;height:100%;object-fit:contain;background:#fff}
+.mindie-course .iv-video-frame{background:#fff}
+.mindie-course .iv-board-viewport{left:32px;right:16px;top:84px;bottom:178px;background:#fff;border:1px solid #e3e3e3;border-radius:8px}
+.mindie-course .iv-board-art{width:100%;min-height:100%;height:auto;aspect-ratio:auto;overflow:visible;background:#fff}
+.mindie-course .iv-board-art .expert-board-copy{position:relative;left:auto;top:auto;width:100%;height:auto;max-width:1100px;overflow:visible;background:#fff;padding:28px 38px 60px;font:inherit;user-select:text}
+.mindie-course .iv-board-art .expert-board-copy h2{font-size:clamp(28px,3vw,46px);font-weight:400;color:#bc0909;margin:14px 0 24px}
+.mindie-course .iv-board-art .expert-board-copy ul{font-size:clamp(16px,1.6vw,22px);line-height:1.65}
+.mindie-course .iv-board-art .expert-board-figure img{position:static;width:auto;height:auto;max-width:100%;max-height:370px;object-fit:contain}
+.mindie-course .iv-timeline{touch-action:none}
+.mindie-course .iv-timeline-duration{font-size:12px;color:#68778d}
+.mindie-course .iv-node-practice .iv-node-label{color:#168264;background:#d7f2e7}
+.mindie-course .iv-node-practice .iv-node-label:after{border-top-color:#d7f2e7}
+.mindie-course .iv-node-note .iv-node-label{color:#8765c7;background:#eee5ff}
+.mindie-course .iv-node-note .iv-node-label:after{border-top-color:#eee5ff}
+.mindie-course .iv-board-art{transform:none!important;display:block!important;grid-template-columns:none!important}
+.mindie-course .iv-board-art .expert-board-copy{width:100%!important;max-width:none;box-sizing:border-box}
+.mindie-course .expert-terminal-session{color:#343b46;font:12px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace}
+.mindie-course .expert-terminal-session pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.mindie-course .expert-terminal-response{margin-top:8px!important;color:#354255}
+.mindie-course .expert-terminal-prompt{color:#17845d;font-weight:700}
+.mindie-course .expert-terminal-session small{display:block;margin-top:12px;color:#687482;font:11px/1.4 system-ui,sans-serif}

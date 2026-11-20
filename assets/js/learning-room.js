@@ -1,9 +1,13 @@
 (() => {
   const params = new URLSearchParams(window.location.search);
+  document.body.dataset.immersiveCourse = params.get('course') || 'training';
+  const immersivePartTitle = document.getElementById('immersivePartTitle');
+  if (immersivePartTitle) immersivePartTitle.textContent = ({operator:'Part 1. CANN、达芬奇架构与算子',training:'Part 1. 大模型分布式训练',mindie:'Part 1. MindIE 服务部署与推理'})[params.get('course')] || 'Part 1. 昇腾开发实践';
   const isMindIECourse = params.get('course') === 'mindie';
   const isTrainingCourse = params.get('course') === 'training';
   const courseName = params.get('title') || (isTrainingCourse ? '大模型分布式训练' : '昇腾学习课程');
-  document.getElementById('courseName').textContent = courseName;
+  const courseNameLabel = document.getElementById('courseName');
+  if (courseNameLabel) courseNameLabel.textContent = courseName;
   document.getElementById('lessonTitle').textContent = '昇腾处理器的逻辑结构拆解';
   document.getElementById('videoLessonTitle').textContent = '昇腾处理器的逻辑结构拆解';
   document.title = `${courseName} · 学习`;
@@ -50,22 +54,24 @@
       }
     })();
   }
-  let selectedMode = 'board';
   const overlay = document.getElementById('modeOverlay');
   const enter = document.getElementById('enterLearning');
-  document.querySelectorAll('.mode-option').forEach(button => button.addEventListener('click', () => {
-    selectedMode = button.dataset.mode;
-    document.querySelectorAll('.mode-option').forEach(item => {
-      const active = item === button;
-      item.classList.toggle('selected', active);
-      item.setAttribute('aria-checked', String(active));
+  if (overlay && enter) {
+    let selectedMode = 'board';
+    document.querySelectorAll('.mode-option').forEach(button => button.addEventListener('click', () => {
+      selectedMode = button.dataset.mode;
+      document.querySelectorAll('.mode-option').forEach(item => {
+        const active = item === button;
+        item.classList.toggle('selected', active);
+        item.setAttribute('aria-checked', String(active));
+      });
+      enter.textContent = selectedMode === 'board' ? '进入白板学习' : '进入视频学习';
+    }));
+    enter.addEventListener('click', () => {
+      overlay.hidden = true;
+      setView(selectedMode);
     });
-    enter.textContent = selectedMode === 'board' ? '进入白板学习' : '进入视频学习';
-  }));
-  enter.addEventListener('click', () => {
-    overlay.hidden = true;
-    setView(selectedMode);
-  });
+  }
 
   const boardRoom = document.getElementById('learningRoom');
   const videoRoom = document.getElementById('videoWorkspace');
@@ -175,10 +181,16 @@ if __name__ == '__main__':
     toastTimer = window.setTimeout(() => { toastNode.hidden = true; }, 2400);
   }
   function setView(view) {
-    const video = view === 'video';
-    boardRoom.hidden = video;
-    videoRoom.hidden = !video;
-    if (video) setVideoPerspective('teacher');
+    if (view === 'experiment') {
+      boardRoom.hidden = true;
+      videoRoom.hidden = false;
+      setVideoPerspective('ide');
+    } else {
+      const video = view === 'video';
+      boardRoom.hidden = video;
+      videoRoom.hidden = !video;
+      if (video) setVideoPerspective('teacher');
+    }
     document.querySelectorAll('.learning-mode-tabs button').forEach(button => button.classList.toggle('active', button.dataset.view === view));
     document.dispatchEvent(new CustomEvent('learning:view-change',{detail:{view}}));
   }
@@ -188,6 +200,7 @@ if __name__ == '__main__':
     videoRoom.classList.toggle('ide-mode', !teacher);
     backToTeacher.hidden = teacher;
     ideMiniVideo.hidden = teacher;
+    if (!videoRoom.hidden) document.querySelectorAll('.learning-mode-tabs button').forEach(button => button.classList.toggle('active', button.dataset.view === (teacher ? 'video' : 'experiment')));
     if (teacher) setIdeAssistOpen(false, false);
   }
   document.getElementById('enterIdePractice').addEventListener('click', () => {
@@ -315,7 +328,7 @@ if __name__ == '__main__':
     input.value = '';
   });
   if (isTrainingCourse) {
-    overlay.hidden = true;
+    if (overlay) overlay.hidden = true;
     setView('video');
   }
   function seekVideo(time) {
@@ -352,6 +365,14 @@ if __name__ == '__main__':
     referenceDrawer.setAttribute('aria-hidden', 'true');
     showToast(`已定位到视频 ${time}，板书位置已保留`);
   }
+  document.addEventListener('learning:locate-video', event => {
+    const {time, text} = event.detail || {};
+    if (!time) return;
+    setView('video');
+    setVideoPerspective('teacher');
+    seekVideo(time);
+    if (text) document.querySelector('.teacher-subtitle').textContent = text;
+  });
   document.querySelectorAll('.learning-mode-tabs button').forEach(button => button.addEventListener('click', () => setView(button.dataset.view)));
   document.getElementById('boardToVideo').addEventListener('click', event => seekVideo(event.currentTarget.dataset.time));
   document.getElementById('openDocument').addEventListener('click', () => {

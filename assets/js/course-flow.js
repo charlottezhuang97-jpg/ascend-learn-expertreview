@@ -492,6 +492,14 @@
   }
 
   window.openCourseFlow = value => {
+    if (value.includes('认证')) {
+      const operator = /算子/.test(value);
+      const params = new URLSearchParams({track:operator?'operator':'inference',level:'ACDP'});
+      const preset = operator || (/(?:工作级|ACDP)/i.test(value) && /推理/.test(value));
+      if (!preset) params.set('title',value.slice(0,100));
+      location.assign(`certification-path.html?${params}`);
+      return;
+    }
     goal = value;
     goalElement.textContent = value;
     questions = /算子|Ascend\s*C/i.test(value) ? topicQuestions.operator : /推理|部署|服务化/i.test(value) ? topicQuestions.inference : trainingQuestions;

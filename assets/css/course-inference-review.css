@@ -1,0 +1,11 @@
+/* Expert walkthrough: unopened text generation inference course. */
+.inference-course .progress-track>span{width:0!important;background:#d9dce0}
+.inference-course .lesson-status,
+.inference-course .stage-unit:nth-child(1) .lesson-status,
+.inference-course .stage-unit:nth-child(2) .lesson-status,
+.inference-course .stage-unit:nth-child(3) .lesson-status{border-color:#e6e7e9;transform:none}
+.inference-course .timeline-node,
+.inference-course .module-item:not(:first-child) .timeline-node{border-color:#e4e5e8;background:#f6f6f7;color:#a5a8ad}
+.inference-course .module-kicker{border-color:#e2e3e7;color:#777d87}
+.inference-course .outcome-list{display:block}
+.inference-course .outcome-list li{max-width:none}

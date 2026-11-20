@@ -9,12 +9,17 @@ node "$repo_root/scripts/build-page-registry-data.mjs"
 rm -rf "$dist"
 mkdir -p "$dist" "$dist/archive/legacy-v1" "$dist/prototypes/lowfi" "$dist/research" "$dist/lab"
 
-cp "$repo_root/index.html" "$repo_root/course-preview.html" "$repo_root/learn.html" "$repo_root/ai-companion.html" "$repo_root/knowledge-map.html" "$repo_root/catalog.html" "$repo_root/page-registry.json" "$dist/"
+cp "$repo_root/index.html" "$repo_root/course-preview.html" "$repo_root/learn.html" "$repo_root/learn-stepwise.html" "$repo_root/experiment-coach.html" "$repo_root/ai-companion.html" "$repo_root/knowledge-map.html" "$repo_root/catalog.html" "$repo_root/page-registry.json" "$dist/"
+cp "$repo_root/certification-path.html" "$repo_root/custom-path.html" "$dist/"
 cp -R "$repo_root/assets" "$dist/assets"
 cp -R "$repo_root/design-system" "$dist/design-system"
 cp -R "$repo_root/docs" "$dist/docs"
 cp -R "$repo_root/archive/legacy-v1/." "$dist/archive/legacy-v1/"
 cp -R "$repo_root/prototypes/lowfi/." "$dist/prototypes/lowfi/"
+if [[ -d "$repo_root/prototypes/highfi" ]]; then
+  mkdir -p "$dist/prototypes/highfi"
+  cp -R "$repo_root/prototypes/highfi/." "$dist/prototypes/highfi/"
+fi
 cp -R "$repo_root/research/." "$dist/research/"
 
 if [[ -d "$repo_root/outputs/ux-audit" ]]; then
@@ -24,6 +29,10 @@ fi
 if [[ -f "$repo_root/outputs/highfi/home-community-contribution-floor-v1.png" ]]; then
   mkdir -p "$dist/lab/highfi"
   cp "$repo_root/outputs/highfi/home-community-contribution-floor-v1.png" "$dist/lab/highfi/"
+fi
+
+if [[ -d "$repo_root/explorations" ]]; then
+  cp -R "$repo_root/explorations" "$dist/explorations"
 fi
 
 touch "$dist/.nojekyll"
