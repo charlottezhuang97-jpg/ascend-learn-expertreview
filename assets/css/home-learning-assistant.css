@@ -94,3 +94,13 @@
 .ha-agent-status.done{background:#a9afb9}
 @media(max-width:400px){.ha-agent-rail{max-width:68px}.ha-header{padding-left:12px;padding-right:10px}.ha-header .ha-drag-handle{min-width:118px}.ha-actions button{width:28px}}
 .home-assistant-window:focus{outline:none}
+
+.ha-query-form{position:relative;z-index:1;display:flex;flex:none;align-items:center;gap:8px;margin:0;padding:12px 20px 16px;border-top:1px solid #ececf2;background:#fff}
+.ha-query-form input{flex:1;min-width:0;height:42px;padding:0 14px;border:1px solid #dddff0;border-radius:22px;background:#fff;color:#292f3c;font:14px var(--font);outline:none}
+.ha-query-form input:focus{border-color:#918cf2;box-shadow:0 0 0 3px #918cf21f}
+.ha-query-form button{display:grid;flex:none;width:38px;height:38px;place-items:center;border:0;border-radius:50%;background:#8fa7f5;color:#fff;font-size:21px;cursor:pointer}
+.ha-query-form button:hover{background:#708df0}
+.ha-query-history{display:grid;gap:10px;margin:20px 0 0}
+.ha-query-history p{max-width:92%;margin:0;padding:10px 13px;border-radius:12px;font-size:13px;line-height:1.6}
+.ha-query-history .ha-query-user{justify-self:end;background:#edf3ff;color:#304564}
+.ha-query-history .ha-query-reply{justify-self:start;background:#f7f7fa;color:#5b6371}

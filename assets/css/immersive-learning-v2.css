@@ -212,7 +212,6 @@ body[data-immersive-course="operator"] .operator-board-v2{display:grid;grid-temp
 .uac-panel[data-feature] .uac-tool-request{display:none}
 .uac-panel[data-feature]:not([data-feature=""]) .uac-message.assistant>span{display:none}
 .uac-panel[data-feature]:not([data-feature=""]) .uac-message.assistant>div{padding-top:8px}
-.uac-panel[data-feature]:not([data-feature=""]) .uac-footer{display:none}
 .uac-result-title{margin:4px 0 15px;color:#2e333c;font-size:14px;font-weight:600;line-height:1.6}
 .uac-result-subtitle{margin:22px 0 12px;color:#30353d;font-size:15px;font-weight:600}
 .uac-result-timeline{margin:18px 0 12px;padding-left:17px;border-left:1px dashed #cbd1da}

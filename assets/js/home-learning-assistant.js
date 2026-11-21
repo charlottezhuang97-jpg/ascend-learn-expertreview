@@ -22,6 +22,20 @@
     const section=document.getElementById(button.dataset.haSection);if(!section)return;
     content.scrollTo({top:section.offsetTop-content.offsetTop-8,behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
   }));
+  panel.querySelector('#homeAssistantQuestionForm')?.addEventListener('submit',event=>{
+    event.preventDefault();
+    const input=panel.querySelector('#homeAssistantQuestion');
+    const question=input.value.trim();
+    if(!question)return;
+    let history=content.querySelector('.ha-query-history');
+    if(!history){history=document.createElement('section');history.className='ha-query-history';history.setAttribute('aria-label','学习助手对话');content.append(history);}
+    const user=document.createElement('p');user.className='ha-query-user';user.textContent=question;
+    const reply=document.createElement('p');reply.className='ha-query-reply';reply.textContent='可以先使用首页的测一测或按开发场景学习找到相关课程；进入课程后，可继续围绕具体内容提问。';
+    history.append(user,reply);
+    input.value='';
+    content.scrollTop=content.scrollHeight;
+    input.focus();
+  });
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden){event.preventDefault();setOpen(false);}});
   if(new URLSearchParams(location.search).get('companion')==='open')setOpen(true);
 })();

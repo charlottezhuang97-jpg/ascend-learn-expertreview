@@ -1,4 +1,4 @@
-/* Expert walkthrough content: supplied seven frames, four board pages, and one practice entry. */
+/* Expert walkthrough content: seven knowledge frames, eight board pages, and one practice entry. */
 (() => {
   if(new URLSearchParams(location.search).get('course')!=='mindie')return;
   document.title='文本生成推理课程 · 沉浸式学习';
@@ -31,29 +31,64 @@
     {title:'从PGC到UGC再到生成式AI',lines:[
       'PGC，指专业生成内容，由专业的内容创作者或团队进行创作、编辑和发布的内容。起源于传统媒体时代，如报纸、杂志、电视等，在数字时代，PGC已应用到网站、应用程序、短视频和音乐等领域。',
       'UGC，指用户生成内容，由普通用户或受众参与创作、编辑和发布的内容。由Web2.0时代引起，随着社交网络和博客的出现而流行，UGC应用在社交网络、在线论坛、博客、知识共享平台等。'
-    ],diagram:'diagram-4.webp',alt:'PGC、UGC、AI 协同与生成式AI的演进图'}
+    ],diagram:'diagram-4.webp',alt:'PGC、UGC、AI 协同与生成式AI的演进图'},
+    {title:'生成式AI的优势',lines:[
+      '高度灵活性：生成式AI具有高度灵活性，可以应用于不同的领域和场景。只要训练模型的数据足够丰富，就可以实现各种形式的生成任务。',
+      '强大的创新能力：生成式AI能够从大量的数据中学习并提取有用的信息，然后在这些信息的基础上进行创新。这使得生成式AI能够产生独特的、新颖的想法和解决方案。',
+      '提高效率：通过使用生成式AI，可以大大提高各种任务的自动化程度，从而提高工作效率。例如，在内容创作领域，使用生成式AI可以快速生成大量的高质量内容。'
+    ],diagram:'node-5.webp',alt:'生成式AI优势原始课件截图',fullSlide:true},
+    {title:'生成式AI核心技术：从GAN到Transformer',lines:[
+      '生成对抗网络（GAN）在2014年提出，通过生成器和判别器之间的博弈学习，在图像生成领域取得了显著的成功。',
+      'Transformer通过其强大的并行处理能力和自注意力机制，在自然语言处理和多模态生成任务中取得了突破性进展。',
+      '变分自编码器和自回归模型在生成数据时通过对输入数据进行概率建模，提供了生成数据的新方式。',
+      '扩散模型是一类基于概率生成模型的深度学习方法，近年来在图像生成、语音合成、文本生成等领域取得了显著的成果。'
+    ],diagram:'node-6.webp',alt:'GAN、Transformer、变分自编码器和扩散模型示意图',fullSlide:true},
+    {title:'变分自编码器',lines:[
+      '变分自编码器（Variational Auto-Encoders，简称VAE），是由Kingma等人于2014年提出的基于变分贝叶斯推断的生成式网络结构，是自编码器的一种变体。',
+      'VAE与传统自编码器通过数值的方式描述潜在空间不同，它以概率的方式描述对潜在空间的观察，将给定输入的每个潜在特征表示为概率分布。'
+    ],diagram:'node-7.webp',alt:'变分自编码器及潜在属性的原始课件示意图',fullSlide:true},
+    {title:'文本生成实验 · 命令示例',lines:[
+      '在实验环境中，向 127.0.0.1:1025/generate 发送请求，提示词为“介绍下Qwen2-7B”，max_tokens 设置为 500。',
+      '提交后在 Terminal 中检查返回的文本，并根据实验手册核验结果。'
+    ],diagram:'command-example.png',alt:'MindIE 文本生成实验命令示例',fullSlide:true}
   ];
-  let typing=0;
+  let typing=0,currentBoardPage=0;
+  const visibleBoardViewport=document.querySelector('.iv-board-viewport');
+  if(visibleBoardViewport){
+    const pagination=document.createElement('nav');
+    pagination.className='expert-board-pagination';
+    pagination.setAttribute('aria-label','白板页面');
+    pagination.innerHTML='<button type="button" data-expert-board-prev aria-label="上一页白板">‹</button><span data-expert-board-page aria-live="polite">1 / 8</span><button type="button" data-expert-board-next aria-label="下一页白板">›</button>';
+    visibleBoardViewport.prepend(pagination);
+    pagination.querySelector('[data-expert-board-prev]').addEventListener('click',()=>window.AscendLearning?.renderBoardPage(currentBoardPage-1));
+    pagination.querySelector('[data-expert-board-next]').addEventListener('click',()=>window.AscendLearning?.renderBoardPage(currentBoardPage+1));
+  }
   function showBoard(index){
-    const page=Math.max(0,Math.min(3,Number(index)||0)),data=boards[page],sections=[...document.querySelectorAll('[data-board-page]')],token=++typing;
-    sections.forEach((section,i)=>{section.hidden=i!==page;section.classList.toggle('media-ready',i===page);});
-    const el=sections[page];
-    const markup=`<div class="expert-board-copy iv-board-selectable"><span>生成式AI基础知识 · ${String(page+1).padStart(2,'0')} / 04</span><h2>${esc(data.title)}</h2><ul>${data.lines.map(line=>`<li data-type-text="${esc(line)}" aria-label="${esc(line)}"></li>`).join('')}</ul><figure class="expert-board-figure"><img src="${root+data.diagram}" alt="${esc(data.alt)}"></figure></div>`;
+    const page=Math.max(0,Math.min(boards.length-1,Number(index)||0)),data=boards[page],sections=[...document.querySelectorAll('[data-board-page]')],token=++typing;
+    currentBoardPage=page;
+    sections.forEach((section,i)=>{section.hidden=i!==0;section.classList.toggle('media-ready',i===0);});
+    const el=sections[0];
+    const markup=`<div class="expert-board-copy iv-board-selectable"><span>生成式AI基础知识 · ${String(page+1).padStart(2,'0')} / ${String(boards.length).padStart(2,'0')}</span><h2 data-type-text="${esc(data.title)}" aria-label="${esc(data.title)}"></h2><ul>${data.lines.map(line=>`<li data-type-text="${esc(line)}" aria-label="${esc(line)}"></li>`).join('')}</ul><figure class="expert-board-figure${data.fullSlide?' expert-board-full-slide':''}"><img src="${root+data.diagram}" alt="${esc(data.alt)}"></figure></div>`;
     el.innerHTML=markup;
     const visibleBoard=document.querySelector('.iv-board-art');if(visibleBoard)visibleBoard.innerHTML=markup;
-    document.getElementById('boardPageValue').textContent=`${page+1} / 4`;
+    document.getElementById('boardPageValue').textContent=`${page+1} / ${boards.length}`;
     document.getElementById('previousBoardPage').disabled=page===0;
-    document.getElementById('nextBoardPage').disabled=page===3;
+    document.getElementById('nextBoardPage').disabled=page===boards.length-1;
+    const pagination=visibleBoardViewport?.querySelector('.expert-board-pagination');
+    if(pagination){pagination.querySelector('[data-expert-board-page]').textContent=`${page+1} / ${boards.length}`;pagination.querySelector('[data-expert-board-prev]').disabled=page===0;pagination.querySelector('[data-expert-board-next]').disabled=page===boards.length-1;}
     document.querySelector('.learning-anchor>span').lastChild.textContent=`板书 ${String(page+1).padStart(2,'0')} · ${data.title}`;
     document.getElementById('boardSubtitle').textContent=data.title;
     el.scrollTop=0;
     const boardsToType=[el,visibleBoard].filter(Boolean),figures=boardsToType.map(board=>board.querySelector('figure'));
     figures.forEach(figure=>figure.hidden=true);
-    if(matchMedia('(prefers-reduced-motion: reduce)').matches){boardsToType.forEach(board=>board.querySelectorAll('[data-type-text]').forEach(item=>item.textContent=item.dataset.typeText));figures.forEach(figure=>figure.hidden=false);return;}
-    (async()=>{for(let i=0;i<data.lines.length;i++){const targets=boardsToType.map(board=>board.querySelectorAll('[data-type-text]')[i]);for(const char of Array.from(data.lines[i])){if(token!==typing)return;targets.forEach(item=>item.textContent+=char);await new Promise(done=>setTimeout(done,11));}}if(token===typing)figures.forEach(figure=>figure.hidden=false);})();
+    const fill=()=>{boardsToType.forEach(board=>board.querySelectorAll('[data-type-text]').forEach(item=>item.textContent=item.dataset.typeText));figures.forEach(figure=>figure.hidden=false)};
+    if(document.body.dataset.fixedView!=='board'||matchMedia('(prefers-reduced-motion: reduce)').matches){fill();return;}
+    (async()=>{const texts=[data.title,...data.lines];for(let i=0;i<texts.length;i++){const targets=boardsToType.map(board=>board.querySelectorAll('[data-type-text]')[i]);for(const char of Array.from(texts[i])){if(token!==typing)return;targets.forEach(item=>item.textContent+=char);await new Promise(done=>setTimeout(done,i===0?42:13));}}if(token===typing)figures.forEach(figure=>figure.hidden=false);})();
   }
+  showBoard.pageCount=boards.length;
   window.MindIERenderBoard=showBoard;
   window.AscendLearning?.renderBoardPage(0);
+  new MutationObserver(()=>{if(document.body.dataset.fixedView==='board')window.AscendLearning?.renderBoardPage(currentBoardPage)}).observe(document.body,{attributes:true,attributeFilter:['data-fixed-view']});
   document.querySelectorAll('.lesson-directory-trigger strong').forEach(el=>el.textContent='文本生成推理快速入门');
   const stage=document.querySelector('#videoWorkspace .video-stage');
   const image=stage?.querySelector('img');
@@ -61,6 +96,7 @@
   function showKnowledge(index){
     if(!image)return;
     const n=Math.max(0,Math.min(6,index));
+    currentBoardPage=n;
     image.src=`${root}node-${n+1}.webp`;
     image.alt=`知识节点 ${n+1}：${knowledge[n][0]} · 来源于提供的课件截图`;
     if(subtitle)subtitle.textContent=`知识 ${String(n+1).padStart(2,'0')} / 07 · ${knowledge[n][0]}`;
@@ -69,7 +105,8 @@
     const iv=document.querySelector('.iv-video-art');
     if(iv){for(const img of iv.querySelectorAll('img')){img.src=`${root}node-${n+1}.webp`;img.alt=`知识节点 ${n+1}：${knowledge[n][0]}`;img.hidden=false;}}
     const ivTime=document.querySelector('.iv-player-controls time');if(ivTime)ivTime.textContent=`知识节点 ${String(n+1).padStart(2,'0')} / 07`;
-    const cursor=document.querySelector('.iv-timeline-cursor');if(cursor){cursor.style.left=`${6+n*11}%`;cursor.querySelector('small').textContent=knowledge[n][0];}
+    const cursor=document.querySelector('.iv-timeline-cursor');if(cursor){cursor.style.left=`${8+n*11}%`;cursor.querySelector('small').textContent=knowledge[n][0];}
+    document.querySelectorAll('[data-expert-iv-node]').forEach(button=>button.classList.toggle('is-current',Number(button.dataset.expertIvNode)===n));
   }
   showKnowledge(0);
   document.querySelector('.iv-course-name')?.replaceChildren(document.createTextNode('文本生成推理课程'));
@@ -109,16 +146,28 @@
     for(const button of ivTimeline.querySelectorAll('[data-expert-iv-node]')){const i=Number(button.dataset.expertIvNode);button.addEventListener('pointerenter',()=>show(button,i));button.addEventListener('focus',()=>show(button,i));button.addEventListener('pointerleave',()=>card.hidden=true);button.addEventListener('blur',()=>card.hidden=true);button.addEventListener('click',()=>{showKnowledge(i);card.hidden=true});}
     ivTimeline.querySelector('[data-expert-iv-note]').addEventListener('click',()=>window.AscendCompanion?.launch('notes'));
     ivTimeline.querySelector('[data-expert-iv-practice]').addEventListener('click',enterPractice);
-    let moved=false;
-    ivTimeline.addEventListener('pointerdown',event=>{if(event.target.closest('button'))return;moved=true;ivTimeline.setPointerCapture(event.pointerId)});
-    ivTimeline.addEventListener('pointerup',event=>{if(!moved)return;moved=false;const r=ivTimeline.getBoundingClientRect(),p=(event.clientX-r.left)/r.width;if(p>=.94)enterPractice();else showKnowledge(Math.max(0,Math.min(6,Math.floor(p*7))))});
+    let dragStart=null;
+    ivTimeline.addEventListener('pointerdown',event=>{
+      dragStart={x:event.clientX,onButton:!!event.target.closest('button')};
+      if(!dragStart.onButton)ivTimeline.setPointerCapture(event.pointerId);
+    });
+    ivTimeline.addEventListener('pointerup',event=>{
+      if(!dragStart)return;
+      const wasDrag=Math.abs(event.clientX-dragStart.x)>8;
+      const wasButton=dragStart.onButton;
+      dragStart=null;
+      if(wasButton&&!wasDrag)return;
+      const r=ivTimeline.getBoundingClientRect(),p=(event.clientX-r.left)/r.width;
+      if(p>=.94)enterPractice();
+      else showKnowledge(Math.max(0,Math.min(6,Math.round((p*100-8)/11))));
+    });
+    ivTimeline.addEventListener('pointercancel',()=>{dragStart=null});
   }
   function enterPractice(){
-    window.AscendLearning?.setView('video');window.AscendLearning?.setVideoPerspective('ide');
-    window.AscendCompanion?.open();
+    window.AscendLearning?.setView('experiment');
+    window.MindIEPromptLab?.preview();
     const input=document.getElementById('uacQuestion');
-    if(input){input.value='请按照实验手册逐步引导我完成 MindIE 文本生成实验';input.focus();}
-    window.AscendLearning?.showToast('已进入实验；发送学习助手中预填的问题，开始逐步引导。');
+    if(input){input.value='请按照实验手册逐步引导我完成 MindIE 文本生成实验';requestAnimationFrame(()=>requestAnimationFrame(()=>input.focus({preventScroll:true})));}
   }
   const sampleText=`介绍下Qwen2-7B 的参数和功能特点。
 Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和功能特点：
@@ -153,7 +202,7 @@ Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和�
     const output=surface?.querySelector('.ex-console-content');
     if(!tab||!output)return;
     surface.querySelectorAll('[data-ex-console]').forEach(button=>{const selected=button===tab;button.classList.toggle('active',selected);button.setAttribute('aria-selected',String(selected));});
-    output.innerHTML=`<div class="expert-terminal-session"><pre class="expert-terminal-command"><span class="expert-terminal-prompt">mindie@lab:~$</span> ${esc(fixture.code)}</pre><pre class="expert-terminal-response">${esc(fixture.response)}</pre><small>文本生成推理示例 · 本地演示输出</small></div>`;
+    output.innerHTML=`<div class="expert-terminal-session"><pre class="expert-terminal-command"><span class="expert-terminal-prompt">mindie@lab:~$</span> ${esc(fixture.code)}</pre><pre class="expert-terminal-response"><span class="expert-terminal-output-label">output 结果</span> ${esc(fixture.response)}</pre></div>`;
     requestAnimationFrame(()=>{output.scrollTop=output.querySelector('.expert-terminal-command')?.offsetHeight||0;});
   }
   window.MindIEExpertShowTerminal=showExperimentTerminal;

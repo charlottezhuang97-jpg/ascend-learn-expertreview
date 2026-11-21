@@ -1,4 +1,6 @@
 /* Expert walkthrough: unopened text generation inference course. */
+.course-detail-page.reference-immersive.inference-course{background:#fff}
+.inference-course .detail-top:before{display:none}
 .inference-course .progress-track>span{width:0!important;background:#d9dce0}
 .inference-course .lesson-status,
 .inference-course .stage-unit:nth-child(1) .lesson-status,

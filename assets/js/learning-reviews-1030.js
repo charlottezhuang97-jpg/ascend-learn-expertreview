@@ -33,9 +33,7 @@
   render();
   function reduced(){return matchMedia('(prefers-reduced-motion: reduce)').matches;}
   function goComments(){floors.scrollTo({top:reviews.offsetTop,behavior:reduced()?'auto':'smooth'});reviews.querySelector('h2').focus({preventScroll:true});const url=new URL(location.href);url.hash='course-reviews-1030';history.replaceState(null,'',url);}
-  function goLearning(){floors.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});document.querySelector('[data-fixed-comment]')?.focus({preventScroll:true});const url=new URL(location.href);if(url.hash==='#course-reviews-1030'){url.hash='';history.replaceState(null,'',url);}}
-  document.querySelector('[data-fixed-comment]').setAttribute('aria-controls',reviews.id);
-  document.querySelector('[data-fixed-comment]').addEventListener('click',goComments);
+  function goLearning(){floors.scrollTo({top:0,behavior:reduced()?'auto':'smooth'});document.querySelector('.iv-footer [data-iv-mode="video"],.fixed1030-footer [data-fixed-view="video"]')?.focus({preventScroll:true});const url=new URL(location.href);if(url.hash==='#course-reviews-1030'){url.hash='';history.replaceState(null,'',url);}}
   reviews.querySelector('[data-reviews-back]').addEventListener('click',goLearning);
   reviews.querySelector('[data-reviews-write]').addEventListener('click',()=>{form.scrollIntoView({behavior:reduced()?'auto':'smooth',block:'center'});textarea.focus({preventScroll:true});});
   reviews.querySelector('[data-reviews-sort]').addEventListener('change',render);

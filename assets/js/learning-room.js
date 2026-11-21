@@ -448,7 +448,8 @@ if __name__ == '__main__':
     page.classList.add('media-ready');
   }
   function renderBoardPage(index, announce = true) {
-    currentBoardPage = Math.max(0, Math.min(boardPages.length - 1, index));
+    const pageCount = isMindIECourse && Number.isInteger(window.MindIERenderBoard?.pageCount) ? window.MindIERenderBoard.pageCount : boardPages.length;
+    currentBoardPage = Math.max(0, Math.min(pageCount - 1, index));
     if(isMindIECourse && window.MindIERenderBoard){window.MindIERenderBoard(currentBoardPage);return;}
     boardPages.forEach((page, pageIndex) => { page.hidden = pageIndex !== currentBoardPage; });
     const content = boardPageContent[currentBoardPage];

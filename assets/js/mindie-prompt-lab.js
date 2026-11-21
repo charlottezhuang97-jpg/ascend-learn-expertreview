@@ -7,7 +7,7 @@
 
   const stylesheet = document.createElement('link');
   stylesheet.rel = 'stylesheet';
-  stylesheet.href = new URL('../css/mindie-prompt-lab.css?v=2', document.currentScript.src).href;
+  stylesheet.href = new URL('../css/mindie-prompt-lab.css?v=3', document.currentScript.src).href;
   document.head.append(stylesheet);
 
   const check = '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m6 16 7 7L27 8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -31,8 +31,8 @@
         const icon = state === 'done' ? check : state === 'loading' ? loading : waiting;
         return `<li class="${state}" aria-label="${label}：${state === 'done' ? '演示完成' : state === 'loading' ? '正在准备' : '待开始'}"><span class="mindie-prompt-lab-status">${icon}</span><span class="mindie-prompt-lab-label">${label}</span><span class="mindie-prompt-lab-chevron" aria-hidden="true">›</span></li>`;
       }).join('')}</ol>
-      ${phase >= 2 ? `<div class="mindie-prompt-lab-detail"><p><b>实验目标：</b><br>向执行请求所在实验环境的 127.0.0.1:1025/generate 发一次请求。</p><p><b>执行要点：</b><br>1、确认提示词与生成参数<br>2、发送一次请求<br>3、展示文本与检查响应</p><div class="mindie-prompt-acceptance"><b>✓ 结果验收成功</b><p>您能看到一段介绍Qwen2-7B功能的文字，它常以“介绍下Qwen2-7B 的参数和功能特点。Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和功能特点”开头。</p><small>此为提供的示例响应，实际结果请以实验终端为准。</small></div><div class="mindie-prompt-command-head"><b>命令示例：</b><button type="button" data-mindie-insert-command>一键置入</button></div><pre>${esc(window.MindIELab?.steps?.[7]?.code||'')}</pre></div>` : ''}
-      </div><small class="mindie-prompt-lab-note">页面演示进度，未连接 HiDevLab 或运行模型请求。</small>
+      ${phase >= 2 ? `<div class="mindie-prompt-lab-detail"><p><b>实验目标：</b><br>向执行请求所在实验环境的 127.0.0.1:1025/generate 发一次请求。</p><p><b>执行要点：</b><br>1、确认提示词与生成参数<br>2、发送一次请求<br>3、展示文本与检查响应</p><div class="mindie-prompt-acceptance"><b>达标结果</b><p>您能看到一段介绍Qwen2-7B功能的文字，它常以“介绍下Qwen2-7B 的参数和功能特点。Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和功能特点”开头。即为实验<strong class="mindie-success-word">成功</strong>。</p></div><div class="mindie-prompt-command-head"><b>命令示例：</b><button type="button" data-mindie-insert-command>一键置入</button></div><pre>${esc(window.MindIELab?.steps?.[7]?.code||'')}</pre></div>` : ''}
+      </div>
     </section>`;
   }
 
@@ -55,6 +55,8 @@
     advance(2, 850);
     advance(3, 2350);
   }
+
+  window.MindIEPromptLab={preview:()=>assistant.showIsolatedPreview(card('preview',-1))};
 
   panel.addEventListener('click',event=>{
     const button=event.target.closest('[data-mindie-insert-command]');if(!button)return;

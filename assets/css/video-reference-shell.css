@@ -166,7 +166,6 @@ body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[dat
 body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-panel[data-feature=course],
 body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-panel[data-feature=chapter],
 body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-panel[data-feature=summary]{background:linear-gradient(110deg,#f5fcfc 0%,#fff 50%,#f8f4ff 100%) 0 0/100% 105px no-repeat,#fff}
-body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-panel:is([data-feature=course],[data-feature=chapter],[data-feature=notes],[data-feature=cards],[data-feature=summary],[data-feature=transcript]) .uac-footer{display:none!important}
 body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-body.iv-feature-body{display:block;padding:0 24px 32px;min-height:0;color:#777;font:16px/24px IVHarmony,'PingFang SC',sans-serif}
 .iv-feature-title{margin:0;color:#191919;font-size:16px;font-weight:600;line-height:24px}
 .iv-feature-intro{margin:12px 0 0;font-size:16px;line-height:24px;color:#777}

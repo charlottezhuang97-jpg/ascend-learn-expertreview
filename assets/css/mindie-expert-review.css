@@ -10,8 +10,8 @@
 .mindie-course #videoWorkspace .video-stage .teacher-subtitle{background:#fffffff0;color:#35393e;border:1px solid #e6e6e6}
 .mindie-course .mindie-board-track .expert-node{position:absolute;top:50%;display:grid;place-items:center;width:26px!important;height:26px;transform:translate(-50%,-50%);border:1px solid #d4def0!important;border-radius:50%!important;background:#fff!important;color:#476bb2!important;cursor:pointer}
 .mindie-course .mindie-board-track .expert-node svg{width:15px;height:15px}
-.mindie-course .mindie-board-track .expert-node.note{color:#856ec5!important}
-.mindie-course .mindie-board-track .expert-node.practice{color:#18846d!important;border-color:#9ddacb!important}
+.mindie-course .mindie-board-track .expert-node.note{color:#5089ef!important;border-color:#bbd2ff!important}
+.mindie-course .mindie-board-track .expert-node.practice{color:#b656ed!important;border-color:#dfc3f4!important}
 .mindie-course .mindie-progress-line{touch-action:none}
 .expert-node-preview{position:fixed;z-index:180;width:320px;overflow:hidden;border:1px solid #dfe5ef;border-radius:12px;background:#fff;box-shadow:0 12px 36px #27364c30;color:#29313e;font-size:12px;pointer-events:none}
 .expert-node-preview img{display:block;width:100%;aspect-ratio:16/9;object-fit:contain;background:#fff}
@@ -37,16 +37,21 @@
 .mindie-course .iv-board-art .expert-board-copy h2{font-size:clamp(28px,3vw,46px);font-weight:400;color:#bc0909;margin:14px 0 24px}
 .mindie-course .iv-board-art .expert-board-copy ul{font-size:clamp(16px,1.6vw,22px);line-height:1.65}
 .mindie-course .iv-board-art .expert-board-figure img{position:static;width:auto;height:auto;max-width:100%;max-height:370px;object-fit:contain}
+.mindie-course .expert-board-full-slide img,.mindie-course .iv-board-art .expert-board-full-slide img{display:block;width:100%;height:auto;max-height:none;object-fit:contain}
+.mindie-course .expert-board-pagination{position:sticky;top:8px;z-index:8;display:flex;width:max-content;align-items:center;gap:8px;margin:8px 14px -44px auto;padding:4px 7px;border:1px solid #e7e7e7;border-radius:999px;background:#fffffff0;box-shadow:0 3px 12px #00000012;color:#535d6b;font-size:12px}
+.mindie-course .expert-board-pagination button{width:26px;height:26px;border:0;border-radius:50%;background:transparent;color:#394451;font-size:21px;line-height:1;cursor:pointer}
+.mindie-course .expert-board-pagination button:hover:not(:disabled),.mindie-course .expert-board-pagination button:focus-visible{background:#edf3ff;color:#2459bb}
+.mindie-course .expert-board-pagination button:disabled{color:#b9bec5;cursor:default}
 .mindie-course .iv-timeline{touch-action:none}
 .mindie-course .iv-timeline-duration{font-size:12px;color:#68778d}
-.mindie-course .iv-node-practice .iv-node-label{color:#168264;background:#d7f2e7}
-.mindie-course .iv-node-practice .iv-node-label:after{border-top-color:#d7f2e7}
-.mindie-course .iv-node-note .iv-node-label{color:#8765c7;background:#eee5ff}
-.mindie-course .iv-node-note .iv-node-label:after{border-top-color:#eee5ff}
+.mindie-course .iv-node-practice .iv-node-label{color:#b656ed;background:#efdafa}
+.mindie-course .iv-node-practice .iv-node-label:after{border-top-color:#efdafa}
+.mindie-course .iv-node-note .iv-node-label{color:#5089ef;background:#d6e4ff}
+.mindie-course .iv-node-note .iv-node-label:after{border-top-color:#d6e4ff}
 .mindie-course .iv-board-art{transform:none!important;display:block!important;grid-template-columns:none!important}
 .mindie-course .iv-board-art .expert-board-copy{width:100%!important;max-width:none;box-sizing:border-box}
 .mindie-course .expert-terminal-session{color:#343b46;font:12px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace}
 .mindie-course .expert-terminal-session pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
 .mindie-course .expert-terminal-response{margin-top:8px!important;color:#354255}
 .mindie-course .expert-terminal-prompt{color:#17845d;font-weight:700}
-.mindie-course .expert-terminal-session small{display:block;margin-top:12px;color:#687482;font:11px/1.4 system-ui,sans-serif}
+.mindie-course .expert-terminal-output-label{color:#17845d;font-weight:700}

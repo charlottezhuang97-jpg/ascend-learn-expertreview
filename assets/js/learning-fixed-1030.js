@@ -17,7 +17,7 @@
   header.querySelector('.fixed1030-lesson').append(title);document.body.prepend(header);
   const footer=document.createElement('footer');footer.className='fixed1030-footer';
   const icon={video:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/>',board:'<path d="M4 4h16v12H4zM12 16v5M8 21h8M7 8h10M7 11h6"/>',ide:'<rect x="2" y="4" width="20" height="16" rx="3"/><path d="m8 9-3 3 3 3m8-6 3 3-3 3m-3-8-2 10"/>'};
-  footer.innerHTML=`<nav class="learning-mode-tabs fixed1030-modes" role="tablist" aria-label="左侧学习视图">${[['video','视频'],['board','白板'],['ide','IDE']].map(([key,label])=>`<button type="button" role="tab" data-fixed-view="${key}" aria-selected="false" aria-controls="${key==='board'?'learningRoom':'videoWorkspace'}"><svg viewBox="0 0 24 24" aria-hidden="true">${icon[key]}</svg><span>${label}</span></button>`).join('')}</nav><div class="fixed1030-links"><button type="button" data-fixed-comment>课程评论</button><button type="button" data-fixed-resources>有用链接</button></div>`;
+  footer.innerHTML=`<nav class="learning-mode-tabs fixed1030-modes" role="tablist" aria-label="左侧学习视图">${[['video','视频'],['board','白板'],['ide','IDE']].map(([key,label])=>`<button type="button" role="tab" data-fixed-view="${key}" aria-selected="false" aria-controls="${key==='board'?'learningRoom':'videoWorkspace'}"><svg viewBox="0 0 24 24" aria-hidden="true">${icon[key]}</svg><span>${label}</span></button>`).join('')}</nav>`;
   document.body.append(footer);
   const panel=document.getElementById('unifiedCompanion');panel.setAttribute('role','complementary');panel.removeAttribute('aria-modal');
   // Reuse the real timeline outside either view's hidden subtree.
@@ -42,7 +42,7 @@
   learning.setView=(view)=>{originalView(view);sync();};
   learning.setVideoPerspective=(perspective)=>{originalPerspective(perspective);sync();};
   function choose(mode){if(mode==='board')originalView('board');else{originalView('video');originalPerspective(mode==='ide'?'ide':'teacher');}sync();}
-  footer.addEventListener('click',e=>{const b=e.target.closest('[data-fixed-view]');if(b)choose(b.dataset.fixedView);if(e.target.closest('[data-fixed-resources]'))panel.querySelector('[data-uac-action="resources"]').click();});
+  footer.addEventListener('click',e=>{const b=e.target.closest('[data-fixed-view]');if(b)choose(b.dataset.fixedView);});
   footer.querySelector('nav').addEventListener('keydown',e=>{const buttons=[...footer.querySelectorAll('[data-fixed-view]')],index=buttons.indexOf(e.target);if(index<0||!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const next=e.key==='Home'?0:e.key==='End'?2:(index+(e.key==='ArrowRight'?1:2))%3;choose(buttons[next].dataset.fixedView);buttons[next].focus();});
   document.addEventListener('learning:view-change',()=>queueMicrotask(sync));
   // Internal lesson/video links still use the original closure APIs.

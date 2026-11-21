@@ -1,6 +1,11 @@
 # 项目协作记忆
 
-这是 `ascend-learn-explore` 的持续交付约定。开发或修改本仓库界面时，先读 [当前 demo 视觉基线](design-system/current-demo-visual.md) 和项目 skill [ascend-learning-visual](.agents/skills/ascend-learning-visual/SKILL.md)，并以用户最近确认的设计稿为最高优先级。
+## 仓库身份
+
+- 本仓库及专家走查方案的作者是 GitHub 用户 `charlottezhuang97-jpg`。提交的 Author 和 Committer 均使用 `charlottezhuang97-jpg <288195996+charlottezhuang97-jpg@users.noreply.github.com>`。
+- 提交作者、提交者与交付署名只使用上述仓库所有者身份。提交前检查身份，提交后复核 Git 记录。
+
+这是 `ascend-learn-expertreview` 的持续交付约定。开发或修改本仓库界面时，先读 [当前 demo 视觉基线](design-system/current-demo-visual.md) 和项目 skill [ascend-learning-visual](.agents/skills/ascend-learning-visual/SKILL.md)，并以用户最近确认的设计稿为最高优先级。
 
 - 首页、课程详情、沉浸学习、学习助手和认证路径须保持同一现行视觉语言；旧版探索页面仅供回溯，不作为新交付模板。
 - 沉浸学习的当前框架是顶部课节区、单一主视角、右侧独立学习助手、底部模式栏与语义时间线。视频／白板／实验切换是同一学习会话。
