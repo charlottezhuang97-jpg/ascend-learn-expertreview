@@ -1,14 +1,16 @@
 /* Source: 方案探索46 and 首页-学伴 Pixso exports. */
+.dlc-search-helper #openQuiz,.dlc-search-helper #openQuiz+.quiz-helper-copy{color:#3f5fd0!important;background:none!important;-webkit-text-fill-color:#3f5fd0!important;text-shadow:none!important;animation:none!important}
 #scenes .scenario-panel{position:relative;background:#f5f5f7;border-radius:26px;padding:0 24px 38px}
-#scenes .scenario-subtabs{height:58px;margin-left:-24px;align-items:flex-end;overflow:visible}
-#scenes .scenario-subtabs button{position:relative;min-width:116px;height:46px;padding:10px 20px 10px 22px;background:#fafafa;border:1px solid #ededee;border-bottom:0;border-radius:22px 22px 0 0;color:#a7a9ae;font-size:15px;clip-path:polygon(0 0,78% 0,100% 100%,0 100%);margin-right:-26px;text-align:left}
-#scenes .scenario-subtabs button[aria-selected=true]{z-index:2;min-width:156px;height:58px;margin-right:-31px;background:#f5f5f7;border-color:transparent;color:#181818;font-weight:600;clip-path:polygon(0 0,80% 0,100% 100%,0 100%)}
+#scenes .scenario-subtabs{height:62px;margin-left:-24px;margin-bottom:4px;align-items:flex-end;overflow:visible}
+#scenes .scenario-subtabs button{position:relative;min-width:100px;height:46px;padding:10px 14px 10px 16px;background:#fafafa;border:1px solid #ededee;border-bottom:0;border-radius:22px 22px 0 0;color:#a7a9ae;font-size:15px;clip-path:polygon(0 0,78% 0,100% 100%,0 100%);margin-right:-26px;text-align:left}
+#scenes .scenario-subtabs button[aria-selected=true]{z-index:2;min-width:140px;height:58px;margin-right:-31px;background:#f5f5f7;border-color:transparent;color:#181818;font-weight:600;clip-path:polygon(0 0,80% 0,100% 100%,0 100%)}
 #scenes .featured-selected-word{display:none;font-size:12px;font-weight:600}
-#scenes .scenario-subtabs button[aria-selected=true] .featured-selected-word{display:inline}
+#scenes .scenario-subtabs button[aria-selected=true] .featured-selected-word{display:none}
 #scenes .scenario-body{grid-template-columns:minmax(290px,336px) minmax(0,1fr);gap:48px}
 #scenes .scenario-course{min-height:350px;border-color:#dedfe2;border-radius:19px;box-shadow:none}
 #scenes .scenario-cover{height:158px;background:#fff}
 #scenes .scenario-cover>img{object-fit:cover}
+#scenes .scenario-course:not([data-featured]) .scenario-cover{margin-top:20px}
 #scenes .scenario-course-info{padding:18px 24px 0}
 #scenes .scenario-course-info>small{display:flex;gap:10px;align-items:center;font-size:12px;color:#777}
 #scenes .scenario-course-info>small b{color:#7657ff;margin-right:0}
@@ -29,11 +31,11 @@
 .home-assistant-window .ha-plan-row+.ha-plan-row{border-top:1px solid #eff0f2}
 .home-assistant-window .ha-plan-status{flex:none;padding:4px 8px;border-radius:10px;color:#4f65c5;background:#ecf0ff;font-size:11px}
 .home-assistant-window .ha-plan-status.pending{color:#8b9099;background:#f4f5f6}
-@media(max-width:700px){#scenes .scenario-panel{padding:0 12px 18px}#scenes .scenario-subtabs{margin-left:-12px}#scenes .scenario-subtabs button{min-width:84px;font-size:11px;padding:10px 12px}#scenes .scenario-subtabs button[aria-selected=true]{min-width:119px}#scenes .featured-selected-word{font-size:10px}#scenes .scenario-body{grid-template-columns:1fr;gap:18px}#scenes .scenario-course{display:flex;min-height:0}#scenes .scenario-cover{height:160px}#scenes .scenario-course-info{padding:16px 18px 0}#scenes .scenario-course-meta{padding:12px 18px 18px}#scenes .scenario-path{padding:0;gap:8px}#scenes .path-step{gap:12px;font-size:12px;min-height:51px}#scenes .scenario-path:before{display:none}.home-assistant-window .ha-content{padding-inline:16px}.home-assistant-window .ha-reference-mascot{flex-basis:82px;width:82px;height:106px;background-size:1560px 926px;background-position:-1187px -138px}}
+@media(max-width:700px){#scenes .scenario-panel{padding:0 12px 18px}#scenes .scenario-subtabs{margin-left:-12px}#scenes .scenario-subtabs button{min-width:68px;font-size:11px;padding:10px 8px}#scenes .scenario-subtabs button[aria-selected=true]{min-width:103px}#scenes .featured-selected-word{font-size:10px}#scenes .scenario-body{grid-template-columns:1fr;gap:18px}#scenes .scenario-course{display:flex;min-height:0}#scenes .scenario-cover{height:160px}#scenes .scenario-course-info{padding:16px 18px 0}#scenes .scenario-course-meta{padding:12px 18px 18px}#scenes .scenario-path{padding:0;gap:8px}#scenes .path-step{gap:12px;font-size:12px;min-height:51px}#scenes .scenario-path:before{display:none}.home-assistant-window .ha-content{padding-inline:16px}.home-assistant-window .ha-reference-mascot{flex-basis:82px;width:82px;height:106px;background-size:1560px 926px;background-position:-1187px -138px}}
 .quiz-option-other{display:flex;align-items:center;gap:10px;cursor:text}
 .quiz-option-other:focus-within,.quiz-option-other.is-selected{border-color:#2e53fa;background:#f3f6ff;color:#244ab5}
 .quiz-option-other .quiz-other-input{min-width:0;flex:1;border:0;outline:0;background:transparent;color:inherit;font:inherit;padding:0}
 .quiz-option-other .quiz-other-input::placeholder{color:#738096;opacity:1}
 .quiz-option-other .quiz-option-check{opacity:0}
 .quiz-option-other.is-selected .quiz-option-check{opacity:1}
-@media(max-width:700px){#scenes .scenario-subtabs button{margin-right:-19px}#scenes .scenario-subtabs button[aria-selected=true]{margin-right:-24px}}
+@media(max-width:700px){#scenes .scenario-subtabs button{margin-right:-15px}#scenes .scenario-subtabs button[aria-selected=true]{margin-right:-19px}}
