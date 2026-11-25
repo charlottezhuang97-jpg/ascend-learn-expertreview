@@ -40,6 +40,10 @@
   <link rel="stylesheet" href="assets/css/home-starter-ide.css?v=6">
 <link rel="icon" href="assets/images/figma-home/certification.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/home-scenes-121.css?v=1">
+  <link rel="stylesheet" href="assets/css/community-121.css?v=1">
+  <link rel="stylesheet" href="assets/css/home-events-121.css?v=1">
+  <link rel="stylesheet" href="assets/css/home-certifications-121.css?v=1">
+  <link rel="stylesheet" href="assets/css/home-glass-nav.css?v=1">
 </head>
 <body>
   <a class="skip-link" href="#scenes">跳至学习内容</a>
@@ -123,39 +127,18 @@
     </section>
     <section class="october-section" id="certifications" aria-labelledby="certTitle"><h2 id="certTitle">按照认证路径学习</h2><p class="section-intro">以下是我们按认证等级设计的进阶路线，从入门到专家逐级递进，帮你在体系化学习中夯实能力、拿下社区认证</p><div class="pill-tabs cert-tabs" role="tablist" aria-label="认证等级"><button role="tab" aria-selected="true" data-cert="ACDA">入门级 ACDA</button><button role="tab" aria-selected="false" data-cert="ACDP">工作级 ACDP</button><button role="tab" aria-selected="false" data-cert="ACDE">专家级 ACDE</button></div><div class="cert-grid" id="certGrid" role="tabpanel" aria-live="polite"></div></section>
     <section class="october-section" id="events" aria-labelledby="eventsTitle"><h2 id="eventsTitle">开发者活动</h2><p class="section-intro">汇集开发者社区活动与我的学习安排，查看课程学习、AI 学伴建议复习和认证考试日程。</p><div class="events-board"><div class="events-toolbar"><div class="month-controls"><button type="button" id="previousMonth" aria-label="上个月">‹</button><strong id="calendarMonth"></strong><button type="button" id="nextMonth" aria-label="下个月">›</button></div><span class="schedule-label">活动日程 <small>示例</small></span><div class="event-filters" aria-label="活动类型"><button aria-pressed="true" data-kind="全部">全部</button><button aria-pressed="false" data-kind="会议">会议</button><button aria-pressed="false" data-kind="活动">活动</button><button aria-pressed="false" data-kind="峰会">峰会</button></div></div><div class="events-body"><div class="calendar"><div class="weekdays" aria-hidden="true"><span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span></div><div class="calendar-grid" id="calendarGrid" aria-label="活动日期"></div></div><div class="event-list" id="eventList" aria-live="polite"></div></div></div><button class="all-events" id="showAllEvents" type="button">查看本月全部活动 <span aria-hidden="true">›</span></button></section>
-    <section class="october-section community-section" id="growth" aria-labelledby="growthTitle">
-      <div class="contribution-feature-card">
-        <div class="contribution-examples" aria-hidden="true">
-          <article class="contribution-example contribution-example-code">
-            <div class="example-window-bar"><span></span><span></span><span></span><small>add_custom.cpp</small></div>
-            <pre><code><span class="code-keyword">__aicore__ void</span> AddKernel() {
-  <span class="code-type">AscendC::Add</span>(dst, x, y);
-  <span class="code-comment">// 分享你的算子实践</span>
-}</code></pre>
-          </article>
-          <article class="contribution-example contribution-example-blog">
-            <div class="example-blog-author"><img src="assets/images/avatars/avatar-female.png" alt=""><span><strong>开发者小语</strong><small>社区技术博客 · 刚刚发布</small></span></div>
-            <strong class="example-blog-title">从零写出第一个 Ascend C 算子</strong>
-            <p>记录调试过程、性能优化与踩坑经验，让更多人从这里继续。</p>
-            <span class="example-blog-meta">算子开发 <i>·</i> 8 分钟阅读</span>
-          </article>
-          <span class="contribution-example-chip contribution-example-chip-top">代码样例已收录 <b>✓</b></span>
-          <span class="contribution-example-chip contribution-example-chip-bottom">实践经验正在帮助更多开发者 ↗</span>
-          <span class="contribution-spark contribution-spark-blog-a">✍️</span>
-          <span class="contribution-spark contribution-spark-blog-b">✨</span>
-          <span class="contribution-spark contribution-spark-code-a">💡</span>
-          <span class="contribution-spark contribution-spark-code-b">✨</span>
-        </div>
-        <p class="contribution-feature-kicker">社区经验贡献</p>
-        <h2 id="growthTitle">你的经验，值得被整个社区记住</h2>
-        <p class="contribution-feature-description">分享你的教程、答疑或代码样例，让更多开发者从你的实践中受益。</p>
-        <a class="contribution-feature-action" href="prototypes/lowfi/developer-contribution-closed-loop.html">立即贡献</a>
-      </div>
-      <div class="contribution-redeem-banner">
-        <span class="contribution-redeem-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5.5h16v4a2.5 2.5 0 0 0 0 5v4H4v-4a2.5 2.5 0 0 0 0-5v-4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 5.5v13" stroke="currentColor" stroke-width="1.7" stroke-dasharray="2 2"/></svg></span>
-        <strong>算子兑换</strong>
-        <span class="contribution-redeem-copy">每一次有效贡献，都在为你积累算力、教程、答疑、代码样例等</span>
-        <a class="contribution-redeem-action" href="prototypes/lowfi/developer-contribution-closed-loop.html">获取卡时</a>
+    <section class="october-section community-section community121" id="growth" aria-labelledby="growthTitle">
+      <h2 id="growthTitle">你的经验，值得被整个社区记住</h2>
+      <p class="section-intro">当经验汇聚，全场景AI异构计算平台会因你而更完整</p>
+      <div class="community121-redeem"><strong>算力兑换</strong><p>每一次有效贡献，都在为你积累算力。教程、答疑、代码样例等有效贡献均可累积积分成长值，兑换昇腾算力。</p><a href="prototypes/lowfi/developer-contribution-closed-loop.html">获取成长值</a></div>
+      <div class="community121-stage">
+        <div class="community121-pattern" aria-hidden="true"><svg style="left:0%;top:28%" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m9 9-3 3 3 3m6-6 3 3-3 3m-2-7-2 8"/></svg><svg style="left:7%;top:12%" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M3 21v-3a7 7 0 0 1 18 0v3Z"/></svg><svg style="left:13%;top:72%" viewBox="0 0 24 24"><path d="M21 10a9 7 0 0 1-11 7l-6 4 1-7a7 7 0 0 1-2-4 9 7 0 0 1 18 0Z"/></svg><svg style="left:19%;top:30%" viewBox="0 0 24 24"><path d="M12 21 3 12C-2 4 6-1 12 6c6-7 14-2 9 6Z"/></svg><svg style="left:25%;top:51%" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m9 9-3 3 3 3m6-6 3 3-3 3m-2-7-2 8"/></svg><svg style="left:32%;top:20%" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M3 21v-3a7 7 0 0 1 18 0v3Z"/></svg><svg style="left:38%;top:6%" viewBox="0 0 24 24"><path d="M21 10a9 7 0 0 1-11 7l-6 4 1-7a7 7 0 0 1-2-4 9 7 0 0 1 18 0Z"/></svg><svg style="left:42%;top:91%" viewBox="0 0 24 24"><path d="M12 21 3 12C-2 4 6-1 12 6c6-7 14-2 9 6Z"/></svg><svg style="left:48%;top:79%" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m9 9-3 3 3 3m6-6 3 3-3 3m-2-7-2 8"/></svg><svg style="left:53%;top:4%" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M3 21v-3a7 7 0 0 1 18 0v3Z"/></svg><svg style="left:61%;top:94%" viewBox="0 0 24 24"><path d="M21 10a9 7 0 0 1-11 7l-6 4 1-7a7 7 0 0 1-2-4 9 7 0 0 1 18 0Z"/></svg><svg style="left:67%;top:8%" viewBox="0 0 24 24"><path d="M12 21 3 12C-2 4 6-1 12 6c6-7 14-2 9 6Z"/></svg><svg style="left:72%;top:66%" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m9 9-3 3 3 3m6-6 3 3-3 3m-2-7-2 8"/></svg><svg style="left:78%;top:26%" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M3 21v-3a7 7 0 0 1 18 0v3Z"/></svg><svg style="left:84%;top:74%" viewBox="0 0 24 24"><path d="M21 10a9 7 0 0 1-11 7l-6 4 1-7a7 7 0 0 1-2-4 9 7 0 0 1 18 0Z"/></svg><svg style="left:91%;top:42%" viewBox="0 0 24 24"><path d="M12 21 3 12C-2 4 6-1 12 6c6-7 14-2 9 6Z"/></svg><svg style="left:97%;top:70%" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m9 9-3 3 3 3m6-6 3 3-3 3m-2-7-2 8"/></svg><svg style="left:5%;top:85%" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M3 21v-3a7 7 0 0 1 18 0v3Z"/></svg><svg style="left:24%;top:93%" viewBox="0 0 24 24"><path d="M21 10a9 7 0 0 1-11 7l-6 4 1-7a7 7 0 0 1-2-4 9 7 0 0 1 18 0Z"/></svg><svg style="left:89%;top:11%" viewBox="0 0 24 24"><path d="M12 21 3 12C-2 4 6-1 12 6c6-7 14-2 9 6Z"/></svg><svg style="left:58%;top:63%" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="m9 9-3 3 3 3m6-6 3 3-3 3m-2-7-2 8"/></svg><svg style="left:2%;top:53%" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M3 21v-3a7 7 0 0 1 18 0v3Z"/></svg><svg style="left:80%;top:91%" viewBox="0 0 24 24"><path d="M21 10a9 7 0 0 1-11 7l-6 4 1-7a7 7 0 0 1-2-4 9 7 0 0 1 18 0Z"/></svg><svg style="left:69%;top:41%" viewBox="0 0 24 24"><path d="M12 21 3 12C-2 4 6-1 12 6c6-7 14-2 9 6Z"/></svg></div>
+        <a class="community121-link community121-blog" href="prototypes/lowfi/developer-contribution-closed-loop.html">沉淀一篇实战博客 <span aria-hidden="true">›</span></a>
+        <a class="community121-link community121-ambassador" href="prototypes/lowfi/developer-contribution-closed-loop.html">成为昇腾体验官 <span aria-hidden="true">›</span></a>
+        <a class="community121-link community121-forum" href="prototypes/lowfi/developer-contribution-closed-loop.html">去论坛回答一个未解之题 <span aria-hidden="true">›</span></a>
+        <div class="community121-voice community121-voice-left" aria-hidden="true"><span>♧</span><small>@LGCG&nbsp; Atlas 300I Duo 深度实战</small></div>
+        <div class="community121-voice community121-voice-right" aria-hidden="true"><span>♧</span><small>@zjun&nbsp; 从“大Y小x”到 Cube 硬件</small></div>
+        <a class="community121-code" href="prototypes/lowfi/developer-contribution-closed-loop.html" aria-label="贡献可运行的代码，了解更多"><div class="community121-card-top"><img src="assets/images/community-121/contributor-avatar.webp" alt=""><span aria-hidden="true">›</span></div><h3>贡献可运行的代码</h3><p>把Demo、算子、工具链开源到GitCode，让后来者直接拿来用。</p><img class="community121-preview" src="assets/images/community-121/code-preview.webp" alt="main.py 代码示例预览"></a>
       </div>
     </section>
   </main>
@@ -211,6 +194,9 @@
   <script src="assets/js/floating-assistant-window.js?v=1"></script>
   <script src="assets/js/home-learning-assistant.js?v=expert-companion-2"></script>
   <script src="assets/js/home-agent-integration.js?v=1"></script>
-  <script src="assets/js/home-scenes-121.js?v=1"></script>
+  <script src="assets/js/home-scenes-121.js?v=2"></script>
+  <script src="assets/js/home-events-121.js?v=1"></script>
+  <script src="assets/js/home-certifications-121.js?v=1"></script>
+  <script src="assets/js/home-glass-nav.js?v=1"></script>
 </body>
 </html>
