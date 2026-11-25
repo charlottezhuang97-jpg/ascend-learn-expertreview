@@ -255,7 +255,7 @@
     stepTimer = window.setTimeout(() => {
       appendPlanningStep();
       if (focusIndex > 0) scrollToQuestion(focusIndex);
-      else heading.focus({ preventScroll: true });
+      else flow.focus({ preventScroll: true });
     }, 500);
 
     function appendPlanningStep() {

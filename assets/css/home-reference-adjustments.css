@@ -39,3 +39,17 @@
 .quiz-option-other .quiz-option-check{opacity:0}
 .quiz-option-other.is-selected .quiz-option-check{opacity:1}
 @media(max-width:700px){#scenes .scenario-subtabs button{margin-right:-15px}#scenes .scenario-subtabs button[aria-selected=true]{margin-right:-19px}}
+
+/* Compact search and a shared flow layout prevent shortcut/input collisions. */
+#heroForm.dlc-search{height:44px;min-height:44px;padding:0 24px;gap:12px}
+#heroForm .dlc-submit{width:30px;height:30px;min-height:0;flex:0 0 30px}
+#heroForm.has-selection .dlc-selected-prompt{position:static;left:auto;width:auto;max-width:35%;flex:none;white-space:nowrap}
+#heroForm.has-selection input{padding-left:0;min-width:0;flex:1;width:0}
+#heroForm .dlc-input-actions{position:static;flex:none;gap:5px}
+#heroForm .dlc-quick-menu{top:calc(100% + 8px)}
+.search-course-list{display:grid}
+.search-course-list>a{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:15px 4px;border-bottom:1px solid #eceef2;color:#293447;text-decoration:none}
+.search-course-list strong{font-size:14px}.search-course-list p{margin:5px 0;color:#778293;font-size:12px;line-height:1.6}.search-course-list small{color:#7c8797;font-size:12px}
+.search-course-list>a:hover strong{color:#3f5fd0}
+@media(max-width:1450px){#heroForm.dlc-search{height:38px;min-height:38px}}
+@media(max-width:700px){#heroForm.dlc-search{height:35px;min-height:35px;padding:0 12px;gap:8px}#heroForm .dlc-input-actions{display:none!important}}
