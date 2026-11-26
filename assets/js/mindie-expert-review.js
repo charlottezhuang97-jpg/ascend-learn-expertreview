@@ -167,7 +167,7 @@
     window.AscendLearning?.setView('experiment');
     window.MindIEPromptLab?.preview();
     const input=document.getElementById('uacQuestion');
-    if(input){input.value='请按照实验手册逐步引导我完成 MindIE 文本生成实验';requestAnimationFrame(()=>requestAnimationFrame(()=>input.focus({preventScroll:true})));}
+    if(input){input.value='';}
   }
   const sampleText=`介绍下Qwen2-7B 的参数和功能特点。
 Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和功能特点：

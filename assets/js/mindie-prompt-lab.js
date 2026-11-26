@@ -58,7 +58,7 @@
     advance(3, 2350);
   }
 
-  window.MindIEPromptLab={preview:()=>{activeRun++;assistant.showIsolatedPreview('');window.MindIEExperimentWorkspace?.progress(-1);}};
+  window.MindIEPromptLab={preview:()=>{activeRun++;assistant.showHome();window.MindIEExperimentWorkspace?.progress(-1);}};
 
   panel.addEventListener('click',event=>{
     const button=event.target.closest('[data-mindie-insert-command]');if(!button)return;
