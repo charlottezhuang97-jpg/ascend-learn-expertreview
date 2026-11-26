@@ -207,4 +207,6 @@ Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和�
   }
   window.MindIEExpertShowTerminal=showExperimentTerminal;
   document.querySelector('.ex-surface')?.addEventListener('click',event=>{if(commandPlaced&&event.target.closest('[data-ex-console="Terminal"]'))queueMicrotask(()=>showExperimentTerminal());});
+  // Direct IDE links use the same ready-to-send entry as the practice node.
+  if(new URLSearchParams(location.search).get('mode')==='ide')enterPractice();
 })();

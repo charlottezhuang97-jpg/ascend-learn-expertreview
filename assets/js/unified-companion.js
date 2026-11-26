@@ -115,7 +115,7 @@
   window.AscendCompanion={open:()=>setOpen(true),close:()=>setOpen(false),showHome:()=>{startNew();setOpen(true);},launch:key=>{setOpen(true);launch(key);},
     beginTool:(question,html)=>{setOpen(true);view='chat';showCards=false;append('user',`<p>${esc(question)}</p>`);append('assistant',html);render();return messages.at(-1).id;},
     beginIsolatedTool:(question,html)=>{startNew();setOpen(true);view='chat';showCards=false;append('user',`<p>${esc(question)}</p>`);append('assistant',html);render();return messages.at(-1).id;},
-    showIsolatedPreview:html=>{startNew();setOpen(true);view='chat';showCards=false;append('assistant',html);render();return messages.at(-1).id;},
+    showIsolatedPreview:html=>{startNew();setOpen(true);view='chat';showCards=false;if(html)append('assistant',html);render();return messages.at(-1)?.id;},
     addToolMessage:(role,html)=>{append(role,html);render();return messages.at(-1).id;},
     updateToolMessage:(id,html)=>{const message=messages.find(m=>m.id===id);if(message){message.html=html;const scroll=content.scrollTop;render();content.scrollTop=scroll;}},
     saveNote:text=>{const value=String(text||'').trim();if(!value||value.length>12000)return false;try{const next=[...notes,value];localStorage.setItem('ascend-unified-notes',JSON.stringify(next));notes=next;return true;}catch{return false;}},
