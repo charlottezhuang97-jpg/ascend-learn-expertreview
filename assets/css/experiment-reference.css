@@ -155,4 +155,26 @@ body.reference-immersive[data-fixed-view=ide] .uac-body.ex-assistant-repair{padd
 @media(max-width:800px){.ex-workbench{right:8px;grid-template-columns:36px minmax(0,1fr);grid-template-rows:48px minmax(0,1fr) 64px}.ex-explorer{display:none}.ex-editor{grid-column:2;grid-template-rows:40px 26px minmax(0,1fr) 120px}.ex-menu>nav{display:none}.ex-editor-split.is-comparing{grid-template-columns:minmax(0,1fr)}.ex-editor-split.is-comparing .ex-current{display:none}.ex-proposal{grid-column:1}.ex-compare-toggle{display:none}.ex-footer{padding:12px}.ex-footer>div{gap:8px}.ex-footer>div button{font-size:11px}.ex-footer>nav>button{font-size:14px;padding-inline:10px}.ex-terminal>nav>[data-ex-console=DebugConsole],.ex-terminal>nav>[data-ex-console=Event]{display:none}body.reference-immersive[data-fixed-view=ide] .uac-panel{top:auto!important;bottom:12px!important;right:12px!important;height:min(720px,calc(100dvh - 80px))!important}.ex-course .ex-assistant-entry{font-size:12px}}
 @media(prefers-reduced-motion:reduce){.ex-surface *{scroll-behavior:auto!important}}
 
-.ex-start-page{position:absolute;inset:40px 0 0;padding:44px 48px;background:#fff;color:#5a6069}.ex-start-page h2{font-size:26px;font-weight:500;margin:0 0 22px}.ex-start-page button{display:flex;align-items:center;gap:14px;background:none;border:0;color:#339dcc;font:inherit;font-size:19px;margin-bottom:16px;padding:4px 0;cursor:pointer}.ex-start-page button span{display:inline-grid;place-items:center;width:25px;font-size:26px}.ex-start-page[hidden]{display:none}.ex-start-empty .ex-editor-split,.ex-start-empty .ex-editor-actions,.ex-start-empty .ex-breadcrumb{visibility:hidden}.ex-explorer>header{display:flex;align-items:center;justify-content:space-between}.ex-explorer>header button{border:0;background:none;color:#777;font-size:20px;cursor:pointer}
+/* IDE welcome uses the editor surface, with a visible Welcome tab. */
+.ex-editor{position:relative}
+.ex-start-page{position:absolute;z-index:3;inset:40px 0 0;overflow:auto;padding:clamp(24px,5vw,64px);background:#fff;color:#545860}
+.ex-start-page[hidden]{display:none}
+.ex-welcome-title h1{font-size:clamp(28px,3vw,40px);font-weight:600;color:#333;margin:0 0 4px}
+.ex-welcome-title>p{font-size:18px;color:#8b8e94;margin:0 0 34px}
+.ex-welcome-columns{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.ex-start-page h2{font-size:20px;font-weight:500;margin:0 0 16px;color:#555}
+.ex-start-page button{display:flex;align-items:center;gap:12px;border:0;background:none;color:#425c77;font:inherit;font-size:14px;padding:6px 0;margin-bottom:8px;text-align:left;cursor:pointer}
+.ex-start-page button:hover{color:#222;text-decoration:underline}
+.ex-start-page img,.ex-welcome-tab img{width:22px;height:22px;flex:none}
+.ex-start-page .ex-recent-title{margin-top:30px}
+.ex-welcome-recent>p{font-size:13px;color:#989ba0}
+.ex-walkthroughs>button{background:#f5f6f8;border:1px solid #e9eaee;border-radius:7px;width:100%;padding:15px 12px;margin-bottom:14px;color:#555;text-decoration:none}
+.ex-walkthroughs strong{display:block;font-size:14px;font-weight:500}.ex-walkthroughs small{display:block;color:#999;font-size:12px;margin-top:4px}
+.ex-welcome-guide{font-size:13px;line-height:1.8;color:#777;padding:8px 2px}
+.ex-start-empty .ex-editor-split,.ex-start-empty .ex-breadcrumb{visibility:hidden}
+.ex-start-empty .ex-terminal{visibility:hidden}
+.ex-start-empty .ex-editor-actions>button{display:none}
+.ex-start-empty .ex-tabs{background:#fafafa}
+.ex-welcome-tab{display:flex!important;align-items:center;gap:7px;padding:8px 16px!important}
+.ex-explorer>header{display:flex;align-items:center;justify-content:space-between}.ex-explorer>header button{border:0;background:none;padding:2px;cursor:pointer}.ex-explorer>header img{width:20px;height:20px}
+@media(max-width:1100px){.ex-welcome-columns{grid-template-columns:1fr;gap:24px}.ex-start-page{padding:24px}.ex-welcome-title>p{margin-bottom:24px}}
