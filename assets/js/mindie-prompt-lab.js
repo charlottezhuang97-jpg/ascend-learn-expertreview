@@ -43,6 +43,11 @@
     if (!matchesPrompt(prompt)) return;
     event.preventDefault();
     event.stopImmediatePropagation();
+    start(prompt);
+  }
+
+  function start(prompt='请按照实验手册逐步引导我完成 MindIE 文本生成实验') {
+    window.MindIEExperimentWorkspace?.progress(-1);
     document.querySelector('.fixed1030-footer [data-fixed-view="ide"]')?.click();
     const id = String(++activeRun);
     const messageId = assistant.beginIsolatedTool(prompt, card(id, 0));
@@ -53,12 +58,12 @@
       assistant.updateToolMessage(messageId, card(id, phase));
       window.MindIEExperimentWorkspace?.progress(phase);
     }, delay);
-    advance(1, 400);
-    advance(2, 850);
-    advance(3, 2350);
+    advance(1, 1200);
+    advance(2, 2800);
+    advance(3, 4600);
   }
 
-  window.MindIEPromptLab={preview:()=>{activeRun++;assistant.showHome();window.MindIEExperimentWorkspace?.progress(-1);}};
+  window.MindIEPromptLab={start,preview:()=>{activeRun++;assistant.showHome();window.MindIEExperimentWorkspace?.progress(-1);}};
 
   panel.addEventListener('click',event=>{
     const button=event.target.closest('[data-mindie-insert-command]');if(!button)return;
