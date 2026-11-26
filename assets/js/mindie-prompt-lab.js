@@ -46,17 +46,19 @@
     document.querySelector('.fixed1030-footer [data-fixed-view="ide"]')?.click();
     const id = String(++activeRun);
     const messageId = assistant.beginIsolatedTool(prompt, card(id, 0));
+    window.MindIEExperimentWorkspace?.progress(0);
     const session = assistant.getSessionId();
     const advance = (phase, delay) => setTimeout(() => {
       if (id !== String(activeRun) || assistant.getSessionId() !== session || !panel.querySelector(`[data-mindie-prompt-lab="${id}"]`)) return;
       assistant.updateToolMessage(messageId, card(id, phase));
+      window.MindIEExperimentWorkspace?.progress(phase);
     }, delay);
     advance(1, 400);
     advance(2, 850);
     advance(3, 2350);
   }
 
-  window.MindIEPromptLab={preview:()=>{activeRun++;assistant.showIsolatedPreview('');}};
+  window.MindIEPromptLab={preview:()=>{activeRun++;assistant.showIsolatedPreview('');window.MindIEExperimentWorkspace?.progress(-1);}};
 
   panel.addEventListener('click',event=>{
     const button=event.target.closest('[data-mindie-insert-command]');if(!button)return;

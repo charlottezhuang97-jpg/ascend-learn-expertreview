@@ -102,5 +102,26 @@
   surface.addEventListener('click',click);panel.addEventListener('click',click);
   surface.querySelector('[data-ex-run]').title='运行和调试 · 本地配置检查示例';
   paint();sync();
+  if(new URLSearchParams(location.search).get('course')==='mindie'){
+    const editor=surface.querySelector('.ex-editor'),tree=surface.querySelector('.ex-tree'),tabs=surface.querySelector('.ex-tabs'),crumb=surface.querySelector('.ex-breadcrumb');
+    const welcome=document.createElement('section');welcome.className='ex-start-page';welcome.innerHTML='<h2>启动</h2>'+[['file','新建文件…'],['open','打开…'],['clone','克隆 Git 仓库…'],['connect','连接到…'],['workspace','生成新工作区…']].map(([key,label])=>`<button type="button" data-start-action="${key}"><span aria-hidden="true">${{file:'＋',open:'▱',clone:'⑂',connect:'〉',workspace:'✧'}[key]}</span>${label}</button>`).join('');editor.append(welcome);
+    const files=new Map();let selected='';
+    surface.querySelector('.ex-explorer>header').innerHTML='Project <button type="button" data-start-action="folder" aria-label="新建文件夹" title="新建文件夹">＋</button>';
+    function openFile(name){if(!files.has(name))return;selected=name;welcome.hidden=true;surface.classList.remove('ex-start-empty');code=files.get(name);input.value=code;stage='idle';proposal='';showRepair=false;paint();tabs.querySelectorAll('[data-ex-tab]').forEach(x=>x.remove());const tab=document.createElement('button');tab.type='button';tab.className='active';tab.textContent=name;tab.setAttribute('role','tab');tab.setAttribute('aria-selected','true');tab.dataset.exTab=name;tabs.prepend(tab);crumb.textContent='MindIE / '+name;surface.querySelector('.ex-code-caption').textContent=name;input.setAttribute('aria-label',name+' 代码编辑器');paintTree();}
+    let folders=[];
+    function paintTree(){tree.innerHTML=folders.map(n=>`<details open><summary>${icon('folder')}<span>${esc(n)}</span></summary></details>`).join('')+[...files.keys()].map(n=>`<button type="button" class="ex-tree-file ${n===selected?'active':''}" data-lab-file="${esc(n)}">${icon('file')}<span>${esc(n)}</span></button>`).join('');}
+    function progress(phase){
+      if(phase<0){files.clear();folders=[];selected='';code='';input.value='';welcome.hidden=false;surface.classList.add('ex-start-empty');tabs.querySelectorAll('[data-ex-tab]').forEach(x=>x.remove());crumb.textContent='';consoleContent.innerHTML='';paintTree();return;}
+      if(phase===0){consoleContent.textContent='正在准备 MindIE 实验环境…';return;}
+      folders=['MindIE'];
+      if(phase>=1)files.set('environment.sh','# MindIE 环境准备\nexport ASCEND_HOME_PATH=/usr/local/Ascend/ascend-toolkit/latest\nsource "$ASCEND_HOME_PATH/bin/setenv.bash"');
+      if(phase>=2){files.set('model-config.json',JSON.stringify({modelName:'qwen2-7b',modelWeightPath:'/home/weights/',image:'MindIE'},null,2));folders=['MindIE','Qwen2-7B'];}
+      if(phase>=3)files.set(filename,original);
+      openFile(phase>=3?filename:phase>=2?'model-config.json':'environment.sh');consoleContent.textContent=['','环境准备完成','模型权重与镜像准备完成','模型推理配置已生成'][Math.min(phase,3)];
+    }
+    surface.addEventListener('click',event=>{const f=event.target.closest('[data-lab-file]');if(f){openFile(f.dataset.labFile);return;}const b=event.target.closest('[data-start-action]');if(!b)return;const action=b.dataset.startAction;if(action==='file'){const n=prompt('文件名称','untitled.txt');if(n&&n.trim()){files.set(n.trim(),'');openFile(n.trim());}}else if(action==='folder'||action==='workspace'){const n=prompt(action==='folder'?'文件夹名称':'工作区名称','MindIE');if(n&&n.trim()){folders.push(n.trim());paintTree();}}else if(action==='open'){const picker=document.createElement('input');picker.type='file';picker.onchange=async()=>{const f=picker.files[0];if(f){files.set(f.name,await f.text());openFile(f.name);}};picker.click();}else{window.AscendLearning.showToast(action==='clone'?'请在实验环境连接后克隆 Git 仓库':'发送右侧引导问题，开始准备实验环境');}});
+    input.addEventListener('input',()=>{if(selected)files.set(selected,input.value);});
+    window.MindIEExperimentWorkspace={progress};progress(-1);
+  }
   if(document.querySelector('.iv-surface'))document.documentElement.classList.remove('immersive-booting');
 })();
