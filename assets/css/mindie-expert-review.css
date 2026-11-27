@@ -31,9 +31,9 @@
 @media(max-width:800px){.mindie-course .expert-board-copy{padding:16px}.mindie-course .expert-board-copy ul{font-size:16px}.expert-node-preview{width:min(300px,calc(100vw - 24px))}}
 .mindie-course .iv-video-art .iv-default-cover,.mindie-course .iv-video-art .iv-subtitle-cover{left:0;top:0;width:100%;height:100%;object-fit:contain;background:#fff}
 .mindie-course .iv-video-frame{background:#fff}
-.mindie-course .iv-board-viewport{left:32px;right:16px;top:84px;bottom:178px;background:#fff;border:1px solid #e3e3e3;border-radius:8px}
-.mindie-course .iv-board-art{width:100%;min-height:100%;height:auto;aspect-ratio:auto;overflow:visible;background:#fff}
-.mindie-course .iv-board-art .expert-board-copy{position:relative;left:auto;top:auto;width:100%;height:auto;max-width:1100px;overflow:visible;background:#fff;padding:28px 38px 60px;font:inherit;user-select:text}
+.mindie-course .iv-board-viewport{left:32px;right:16px;top:84px;bottom:178px;background:transparent;border:0;border-radius:0}
+.mindie-course .iv-board-art{width:100%;min-height:100%;height:auto;aspect-ratio:auto;overflow:visible;background:transparent}
+.mindie-course .iv-board-art .expert-board-copy{position:relative;left:auto;top:auto;width:100%;height:auto;max-width:1100px;overflow:visible;background:transparent;padding:28px 38px 60px;font:inherit;user-select:text}
 .mindie-course .iv-board-art .expert-board-copy h2{font-size:clamp(28px,3vw,46px);font-weight:400;color:#bc0909;margin:14px 0 24px}
 .mindie-course .iv-board-art .expert-board-copy ul{font-size:clamp(16px,1.6vw,22px);line-height:1.65}
 .mindie-course .iv-board-art .expert-board-figure img{position:static;width:auto;height:auto;max-width:100%;max-height:370px;object-fit:contain}
