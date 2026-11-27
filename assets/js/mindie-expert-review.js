@@ -147,6 +147,7 @@
   const ivTimeline=document.querySelector('.iv-timeline');
   if(ivTimeline){
     ivTimeline.innerHTML=`<div class="iv-timeline-background"></div><span class="iv-timeline-duration"><button type="button" data-expert-play aria-label="播放"></button><time data-expert-time></time></span>${knowledge.map((item,i)=>`<button type="button" class="iv-node iv-node-knowledge" style="--at:${8+i*11}%" data-expert-iv-node="${i}" aria-label="知识节点 ${i+1}：${esc(item[0])}"><span class="iv-node-label" ${i?'hidden':''}>知识</span><i></i><span class="iv-source iv-knowledge" aria-hidden="true"></span></button>`).join('')}<button type="button" class="iv-node iv-node-note" style="--at:84%" data-expert-iv-note aria-label="笔记：记录本节知识"><span class="iv-node-label">笔记</span><i></i><span class="iv-source iv-note" aria-hidden="true"></span></button><button type="button" class="iv-node iv-node-practice" style="--at:97%" data-expert-iv-practice aria-label="实践：进入文本生成实验"><span class="iv-node-label">实践</span><i></i><span class="iv-source iv-practice" aria-hidden="true"></span></button><span class="iv-timeline-cursor" style="left:8%"><i></i><small>${esc(knowledge[0][0])}</small></span>`;
+    const nodeTrack=document.createElement('div');nodeTrack.className='expert-timeline-track';ivTimeline.append(nodeTrack);ivTimeline.querySelectorAll('.iv-node,.iv-timeline-cursor').forEach(node=>nodeTrack.append(node));
     const card=document.createElement('aside');card.className='expert-node-preview expert-iv-preview';card.hidden=true;document.body.append(card);
     const show=(button,i)=>{card.innerHTML=`<img src="${root}node-${i+1}.webp" alt=""><div><small>知识节点 ${String(i+1).padStart(2,'0')} / 07</small><strong>${esc(knowledge[i][0])}</strong><p>${esc(knowledge[i][1])}</p></div>`;card.hidden=false;const r=button.getBoundingClientRect();card.style.left=`${Math.max(12,Math.min(innerWidth-320,r.left-145))}px`;card.style.bottom=`${Math.max(110,innerHeight-r.top+10)}px`;};
     for(const button of ivTimeline.querySelectorAll('[data-expert-iv-node]')){const i=Number(button.dataset.expertIvNode);button.addEventListener('pointerenter',()=>show(button,i));button.addEventListener('focus',()=>show(button,i));button.addEventListener('pointerleave',()=>card.hidden=true);button.addEventListener('blur',()=>card.hidden=true);button.addEventListener('click',()=>{showKnowledge(i);card.hidden=true});}
@@ -163,7 +164,7 @@
       const wasButton=dragStart.onButton;
       dragStart=null;
       if(wasButton&&!wasDrag)return;
-      const r=ivTimeline.getBoundingClientRect(),p=(event.clientX-r.left)/r.width;
+      const r=nodeTrack.getBoundingClientRect(),p=(event.clientX-r.left)/r.width;
       if(p>=.94)enterPractice();
       else showKnowledge(Math.max(0,Math.min(6,Math.round((p*100-8)/11))));
     });
