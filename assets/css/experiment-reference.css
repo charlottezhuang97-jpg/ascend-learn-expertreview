@@ -180,3 +180,5 @@ body.reference-immersive[data-fixed-view=ide] .uac-body.ex-assistant-repair{padd
 @media(max-width:1100px){.ex-welcome-columns{grid-template-columns:1fr;gap:24px}.ex-start-page{padding:24px}.ex-welcome-title>p{margin-bottom:24px}}
 
 .ex-surface:not(.ex-start-empty) .ex-editor-actions>[data-ex-run]{display:grid;visibility:visible;opacity:1;min-width:26px}.ex-editor-actions>[data-ex-run]>img{display:block;width:20px;height:20px}
+
+.ex-walkthroughs>[data-welcome-guide="mindie"]{min-height:112px;padding:18px 15px;border:1px solid #e2ddf8;background:linear-gradient(120deg,#f5f2ff,#edf6ff);border-radius:14px;box-shadow:0 5px 20px #7760aa0a;gap:14px}.ex-start-page img.ex-lab-3d-icon{width:68px;height:68px;object-fit:contain}.ex-walkthroughs>[data-welcome-guide="mindie"]:hover{border-color:#b7a5f1;box-shadow:0 6px 22px #7562ad18}.ex-walkthroughs>[data-welcome-guide="mindie"] strong{color:#41405d}
