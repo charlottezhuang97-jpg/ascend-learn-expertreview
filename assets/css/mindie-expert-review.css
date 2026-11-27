@@ -69,3 +69,5 @@
 .mindie-course .expert-timeline-actions .iv-source{filter:brightness(.25)}
 .mindie-course .expert-timeline-actions button:hover{background:#e7eaf0;border-radius:5px}
 .mindie-course .expert-timeline-actions button[aria-pressed="true"]{opacity:.45}
+
+.mindie-course .expert-timeline-actions button>img{display:block;width:20px;height:20px;filter:none}

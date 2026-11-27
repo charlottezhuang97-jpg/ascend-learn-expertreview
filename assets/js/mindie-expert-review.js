@@ -95,23 +95,27 @@
   const stage=document.querySelector('#videoWorkspace .video-stage');
   const image=stage?.querySelector('img');
   const subtitle=stage?.querySelector('.teacher-subtitle');
-  const playbackDuration=1120;let playbackSeconds=0,playbackRunning=false;
+  const playbackDuration=1120;
+  const knowledgeTimes=[0,95,230,355,525,710,880];
+  const nodeAt=i=>5+knowledgeTimes[i]/playbackDuration*92;
+  const nearestNode=percent=>knowledgeTimes.reduce((best,_,i)=>Math.abs(nodeAt(i)-percent)<Math.abs(nodeAt(best)-percent)?i:best,0);
+  let playbackSeconds=0,playbackRunning=false;
   const formatTime=seconds=>`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;
   function updatePlayback(){document.querySelectorAll('[data-expert-time]').forEach(el=>el.textContent=`${formatTime(playbackSeconds)} / ${formatTime(playbackDuration)}`);document.querySelectorAll('[data-expert-play]').forEach(el=>{el.innerHTML=playbackRunning?'<svg viewBox="0 0 20 20"><path d="M6 4v12M14 4v12"/></svg>':'<svg viewBox="0 0 20 20"><path d="m6 3 11 7-11 7Z"/></svg>';el.setAttribute('aria-label',playbackRunning?'暂停':'播放');el.setAttribute('aria-pressed',String(playbackRunning));});}
   function showKnowledge(index){
     if(!image)return;
     const n=Math.max(0,Math.min(6,index));
-    currentBoardPage=n;playbackSeconds=Math.round(n*playbackDuration/7);updatePlayback();
+    currentBoardPage=n;playbackSeconds=knowledgeTimes[n];updatePlayback();
     if(document.body.dataset.fixedView==='board'){window.AscendLearning?.renderBoardPage(n);if(visibleBoardViewport)visibleBoardViewport.scrollTop=0;}
     image.src=`${root}node-${n+1}.webp`;
     image.alt=`知识节点 ${n+1}：${knowledge[n][0]} · 来源于提供的课件截图`;
     if(subtitle)subtitle.textContent=`知识 ${String(n+1).padStart(2,'0')} / 07 · ${knowledge[n][0]}`;
     document.getElementById('timelineCurrentTime').textContent=`节点 ${String(n+1).padStart(2,'0')}`;
-    document.getElementById('videoPlayed').style.width=`${(n+1)*11}%`;
+    document.getElementById('videoPlayed').style.width=`${nodeAt(n)}%`;
     const iv=document.querySelector('.iv-video-art');
     if(iv){for(const img of iv.querySelectorAll('img')){img.src=`${root}node-${n+1}.webp`;img.alt=`知识节点 ${n+1}：${knowledge[n][0]}`;img.hidden=false;}}
     const ivTime=document.querySelector('.iv-player-controls time');if(ivTime)ivTime.textContent=`${formatTime(playbackSeconds)} / ${formatTime(playbackDuration)}`;
-    const cursor=document.querySelector('.iv-timeline-cursor');if(cursor){cursor.style.left=`${8+n*11}%`;cursor.querySelector('small').textContent=knowledge[n][0];}
+    const cursor=document.querySelector('.iv-timeline-cursor');if(cursor){cursor.style.left=`${nodeAt(n)}%`;cursor.querySelector('small').textContent=knowledge[n][0];}
     document.querySelectorAll('[data-expert-iv-node]').forEach(button=>button.classList.toggle('is-current',Number(button.dataset.expertIvNode)===n));
   }
   showKnowledge(0);
@@ -126,30 +130,30 @@
   const line=document.querySelector('.mindie-glass-progress .mindie-progress-line');
   if(track){
     const icon='<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h5l2 2 2-2h5v8h-5l-2 2-2-2H3zM10 8v6"/></svg>';
-    track.innerHTML='<i aria-hidden="true"></i>'+knowledge.map((k,i)=>`<button type="button" class="expert-node knowledge" style="left:${6+i*11}%" data-expert-node="${i}" aria-label="知识节点 ${i+1}：${esc(k[0])}" aria-describedby="expertNodePreview">${icon}</button>`).join('')+'<button type="button" class="expert-node note" style="left:84%" data-expert-note aria-label="笔记节点：记录学习要点">✎</button><button type="button" class="expert-node practice" style="left:98%" data-expert-practice aria-label="实践节点：进入 MindIE 文本生成实验">⚑</button>';
+    track.innerHTML='<i aria-hidden="true"></i>'+knowledge.map((k,i)=>`<button type="button" class="expert-node knowledge" style="left:${nodeAt(i)}%" data-expert-node="${i}" aria-label="知识节点 ${i+1}：${esc(k[0])}" aria-describedby="expertNodePreview">${icon}</button>`).join('')+'<button type="button" class="expert-node note" style="left:84%" data-expert-note aria-label="笔记节点：记录学习要点">✎</button><button type="button" class="expert-node practice" style="left:98%" data-expert-practice aria-label="实践节点：进入 MindIE 文本生成实验">⚑</button>';
     document.getElementById('learningNodePreview')?.remove();
     const preview=document.createElement('aside');preview.id='expertNodePreview';preview.className='expert-node-preview';preview.hidden=true;document.body.append(preview);
     const hide=()=>{preview.hidden=true};
     const place=button=>{const r=button.getBoundingClientRect();preview.style.left=`${Math.max(12,Math.min(innerWidth-320,r.left-145))}px`;preview.style.bottom=`${Math.max(85,innerHeight-r.top+10)}px`;};
     for(const button of track.querySelectorAll('[data-expert-node]')){
       const i=Number(button.dataset.expertNode);
-      button.addEventListener('pointerenter',()=>{preview.innerHTML=`<img src="${root}node-${i+1}.webp" alt=""><div><small>知识节点 ${String(i+1).padStart(2,'0')} / 07</small><strong>${esc(knowledge[i][0])}</strong><p>${esc(knowledge[i][1])}</p></div>`;preview.hidden=false;place(button)});
-      button.addEventListener('focus',()=>{preview.innerHTML=`<img src="${root}node-${i+1}.webp" alt=""><div><small>知识节点 ${String(i+1).padStart(2,'0')} / 07</small><strong>${esc(knowledge[i][0])}</strong><p>${esc(knowledge[i][1])}</p></div>`;preview.hidden=false;place(button)});
+      button.addEventListener('pointerenter',()=>{preview.innerHTML=`<img src="${root}node-${i+1}.webp" alt=""><div><strong>${esc(knowledge[i][0])}</strong><p>${esc(knowledge[i][1])}</p></div>`;preview.hidden=false;place(button)});
+      button.addEventListener('focus',()=>{preview.innerHTML=`<img src="${root}node-${i+1}.webp" alt=""><div><strong>${esc(knowledge[i][0])}</strong><p>${esc(knowledge[i][1])}</p></div>`;preview.hidden=false;place(button)});
       button.addEventListener('pointerleave',hide);button.addEventListener('blur',hide);
-      button.addEventListener('click',()=>{showKnowledge(i);track.querySelector('i').style.width=`${6+i*11}%`;hide();window.AscendLearning?.setView('video');window.AscendLearning?.setVideoPerspective('teacher');});
+      button.addEventListener('click',()=>{showKnowledge(i);track.querySelector('i').style.width=`${nodeAt(i)}%`;hide();window.AscendLearning?.setView('video');window.AscendLearning?.setVideoPerspective('teacher');});
     }
     track.querySelector('[data-expert-note]').addEventListener('click',()=>{window.AscendCompanion?.launch('notes')});
     track.querySelector('[data-expert-practice]').addEventListener('click',enterPractice);
     let dragging=false;
     line?.addEventListener('pointerdown',event=>{if(event.target.closest('button'))return;dragging=true;line.setPointerCapture(event.pointerId)});
-    line?.addEventListener('pointerup',event=>{if(!dragging)return;dragging=false;const r=line.getBoundingClientRect(),fraction=(event.clientX-r.left)/r.width;if(fraction>=.94)enterPractice();else showKnowledge(Math.max(0,Math.min(6,Math.floor(fraction*7))))});
+    line?.addEventListener('pointerup',event=>{if(!dragging)return;dragging=false;const r=line.getBoundingClientRect(),fraction=(event.clientX-r.left)/r.width;if(fraction>=.94)enterPractice();else showKnowledge(nearestNode(fraction*100))});
   }
   const ivTimeline=document.querySelector('.iv-timeline');
   if(ivTimeline){
-    ivTimeline.innerHTML=`<div class="iv-timeline-background"></div><span class="iv-timeline-duration"><button type="button" data-expert-play aria-label="播放"></button><time data-expert-time></time></span>${knowledge.map((item,i)=>`<button type="button" class="iv-node iv-node-knowledge" style="--at:${8+i*11}%" data-expert-iv-node="${i}" aria-label="知识节点 ${i+1}：${esc(item[0])}"><span class="iv-node-label" ${i?'hidden':''}>知识</span><i></i><span class="iv-source iv-knowledge" aria-hidden="true"></span></button>`).join('')}<button type="button" class="iv-node iv-node-note" style="--at:84%" data-expert-iv-note aria-label="笔记：记录本节知识"><span class="iv-node-label">笔记</span><i></i><span class="iv-source iv-note" aria-hidden="true"></span></button><button type="button" class="iv-node iv-node-practice" style="--at:97%" data-expert-iv-practice aria-label="实践：进入文本生成实验"><span class="iv-node-label">实践</span><i></i><span class="iv-source iv-practice" aria-hidden="true"></span></button><span class="iv-timeline-cursor" style="left:8%"><i></i><small>${esc(knowledge[0][0])}</small></span>`;
+    ivTimeline.innerHTML=`<div class="iv-timeline-background"></div><span class="iv-timeline-duration"><button type="button" data-expert-play aria-label="播放"></button><time data-expert-time></time></span>${knowledge.map((item,i)=>`<button type="button" class="iv-node iv-node-knowledge" style="--at:${nodeAt(i)}%" data-expert-iv-node="${i}" aria-label="知识节点 ${i+1}：${esc(item[0])}"><span class="iv-node-label" ${i?'hidden':''}>知识</span><i></i><span class="iv-source iv-knowledge" aria-hidden="true"></span></button>`).join('')}<button type="button" class="iv-node iv-node-note" style="--at:84%" data-expert-iv-note aria-label="笔记：记录本节知识"><span class="iv-node-label">笔记</span><i></i><span class="iv-source iv-note" aria-hidden="true"></span></button><button type="button" class="iv-node iv-node-practice" style="--at:97%" data-expert-iv-practice aria-label="实践：进入文本生成实验"><span class="iv-node-label">实践</span><i></i><span class="iv-source iv-practice" aria-hidden="true"></span></button><span class="iv-timeline-cursor" style="left:5%"><i></i><small>${esc(knowledge[0][0])}</small></span>`;
     const nodeTrack=document.createElement('div');nodeTrack.className='expert-timeline-track';ivTimeline.append(nodeTrack);ivTimeline.querySelectorAll('.iv-node,.iv-timeline-cursor').forEach(node=>nodeTrack.append(node));
     const card=document.createElement('aside');card.className='expert-node-preview expert-iv-preview';card.hidden=true;document.body.append(card);
-    const show=(button,i)=>{card.innerHTML=`<img src="${root}node-${i+1}.webp" alt=""><div><small>知识节点 ${String(i+1).padStart(2,'0')} / 07</small><strong>${esc(knowledge[i][0])}</strong><p>${esc(knowledge[i][1])}</p></div>`;card.hidden=false;const r=button.getBoundingClientRect();card.style.left=`${Math.max(12,Math.min(innerWidth-320,r.left-145))}px`;card.style.bottom=`${Math.max(110,innerHeight-r.top+10)}px`;};
+    const show=(button,i)=>{card.innerHTML=`<img src="${root}node-${i+1}.webp" alt=""><div><strong>${esc(knowledge[i][0])}</strong><p>${esc(knowledge[i][1])}</p></div>`;card.hidden=false;const r=button.getBoundingClientRect();card.style.left=`${Math.max(12,Math.min(innerWidth-320,r.left-145))}px`;card.style.bottom=`${Math.max(110,innerHeight-r.top+10)}px`;};
     for(const button of ivTimeline.querySelectorAll('[data-expert-iv-node]')){const i=Number(button.dataset.expertIvNode);button.addEventListener('pointerenter',()=>show(button,i));button.addEventListener('focus',()=>show(button,i));button.addEventListener('pointerleave',()=>card.hidden=true);button.addEventListener('blur',()=>card.hidden=true);button.addEventListener('click',()=>{showKnowledge(i);card.hidden=true});}
     ivTimeline.querySelector('[data-expert-iv-note]').addEventListener('click',()=>window.AscendCompanion?.launch('notes'));
     ivTimeline.querySelector('[data-expert-iv-practice]').addEventListener('click',enterPractice);
@@ -166,7 +170,7 @@
       if(wasButton&&!wasDrag)return;
       const r=nodeTrack.getBoundingClientRect(),p=(event.clientX-r.left)/r.width;
       if(p>=.94)enterPractice();
-      else showKnowledge(Math.max(0,Math.min(6,Math.round((p*100-8)/11))));
+      else showKnowledge(nearestNode(p*100));
     });
     ivTimeline.addEventListener('pointercancel',()=>{dragStart=null});
   }
@@ -176,13 +180,13 @@
   const legacyControls=document.querySelector('.iv-player-controls');
   if(legacyControls&&ivTimeline){
     const auxiliary=document.createElement('div');auxiliary.className='expert-timeline-actions';auxiliary.setAttribute('aria-label','播放辅助控制');
-    legacyControls.querySelectorAll('[data-iv-sound],[data-iv-transcript],[data-iv-fullscreen]').forEach(button=>auxiliary.append(button));
+    legacyControls.querySelectorAll('[data-iv-sound],[data-iv-transcript],[data-iv-fullscreen]').forEach(button=>{const key=button.hasAttribute('data-iv-sound')?'sound':button.hasAttribute('data-iv-transcript')?'caption':'fullscreen';button.innerHTML=`<img src="assets/images/player-line/${key}.svg" alt="" width="20" height="20">`;auxiliary.append(button);});
     ivTimeline.append(auxiliary);
     legacyControls.querySelectorAll('[data-expert-play],time').forEach(el=>el.remove());
     legacyControls.hidden=true;
   }
   updatePlayback();
-  setInterval(()=>{if(!playbackRunning||!['video','board'].includes(document.body.dataset.fixedView))return;const next=Math.min(playbackDuration,playbackSeconds+1),node=Math.min(6,Math.floor(next/(playbackDuration/7)));if(node!==currentBoardPage)showKnowledge(node);playbackSeconds=next;if(next===playbackDuration)playbackRunning=false;updatePlayback();},1000);
+  setInterval(()=>{if(!playbackRunning||!['video','board'].includes(document.body.dataset.fixedView))return;const next=Math.min(playbackDuration,playbackSeconds+1),node=knowledgeTimes.reduce((found,time,i)=>next>=time?i:found,0);if(node!==currentBoardPage)showKnowledge(node);playbackSeconds=next;if(next===playbackDuration)playbackRunning=false;updatePlayback();},1000);
   function enterPractice(){
     window.AscendLearning?.setView('experiment');
     window.MindIEPromptLab?.preview();
