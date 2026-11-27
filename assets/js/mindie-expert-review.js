@@ -59,7 +59,8 @@
     pagination.className='expert-board-pagination';
     pagination.setAttribute('aria-label','白板页面');
     pagination.innerHTML='<button type="button" data-expert-board-prev aria-label="上一页白板">‹</button><span data-expert-board-page aria-live="polite">1 / 8</span><button type="button" data-expert-board-next aria-label="下一页白板">›</button>';
-    visibleBoardViewport.prepend(pagination);
+    const tools=document.querySelector('.iv-canvas-tools');
+    const headerTools=document.createElement('div');headerTools.className='expert-canvas-controls';tools.before(headerTools);headerTools.append(pagination,tools);
     pagination.querySelector('[data-expert-board-prev]').addEventListener('click',()=>window.AscendLearning?.renderBoardPage(currentBoardPage-1));
     pagination.querySelector('[data-expert-board-next]').addEventListener('click',()=>window.AscendLearning?.renderBoardPage(currentBoardPage+1));
   }
@@ -68,13 +69,13 @@
     currentBoardPage=page;
     sections.forEach((section,i)=>{section.hidden=i!==0;section.classList.toggle('media-ready',i===0);});
     const el=sections[0];
-    const markup=`<div class="expert-board-copy iv-board-selectable"><span>生成式AI基础知识 · ${String(page+1).padStart(2,'0')} / ${String(boards.length).padStart(2,'0')}</span><h2 data-type-text="${esc(data.title)}" aria-label="${esc(data.title)}"></h2><ul>${data.lines.map(line=>`<li data-type-text="${esc(line)}" aria-label="${esc(line)}"></li>`).join('')}</ul><figure class="expert-board-figure${data.fullSlide?' expert-board-full-slide':''}"><img src="${root+data.diagram}" alt="${esc(data.alt)}"></figure></div>`;
+    const markup=`<div class="expert-board-copy iv-board-selectable"><h2 data-type-text="${esc(data.title)}" aria-label="${esc(data.title)}"></h2><ul>${data.lines.map(line=>`<li data-type-text="${esc(line)}" aria-label="${esc(line)}"></li>`).join('')}</ul><figure class="expert-board-figure${data.fullSlide?' expert-board-full-slide':''}"><img src="${root+data.diagram}" alt="${esc(data.alt)}"></figure></div>`;
     el.innerHTML=markup;
     const visibleBoard=document.querySelector('.iv-board-art');if(visibleBoard)visibleBoard.innerHTML=markup;
     document.getElementById('boardPageValue').textContent=`${page+1} / ${boards.length}`;
     document.getElementById('previousBoardPage').disabled=page===0;
     document.getElementById('nextBoardPage').disabled=page===boards.length-1;
-    const pagination=visibleBoardViewport?.querySelector('.expert-board-pagination');
+    const pagination=document.querySelector('.expert-board-pagination');
     if(pagination){pagination.querySelector('[data-expert-board-page]').textContent=`${page+1} / ${boards.length}`;pagination.querySelector('[data-expert-board-prev]').disabled=page===0;pagination.querySelector('[data-expert-board-next]').disabled=page===boards.length-1;}
     document.querySelector('.learning-anchor>span').lastChild.textContent=`板书 ${String(page+1).padStart(2,'0')} · ${data.title}`;
     document.getElementById('boardSubtitle').textContent=data.title;
@@ -93,10 +94,13 @@
   const stage=document.querySelector('#videoWorkspace .video-stage');
   const image=stage?.querySelector('img');
   const subtitle=stage?.querySelector('.teacher-subtitle');
+  const playbackDuration=1120;let playbackSeconds=0,playbackRunning=false;
+  const formatTime=seconds=>`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(Math.floor(seconds%60)).padStart(2,'0')}`;
+  function updatePlayback(){document.querySelectorAll('[data-expert-time]').forEach(el=>el.textContent=`${formatTime(playbackSeconds)} / ${formatTime(playbackDuration)}`);document.querySelectorAll('[data-expert-play]').forEach(el=>{el.innerHTML=playbackRunning?'<svg viewBox="0 0 20 20"><path d="M6 4v12M14 4v12"/></svg>':'<svg viewBox="0 0 20 20"><path d="m6 3 11 7-11 7Z"/></svg>';el.setAttribute('aria-label',playbackRunning?'暂停':'播放');el.setAttribute('aria-pressed',String(playbackRunning));});}
   function showKnowledge(index){
     if(!image)return;
     const n=Math.max(0,Math.min(6,index));
-    currentBoardPage=n;
+    currentBoardPage=n;playbackSeconds=Math.round(n*playbackDuration/7);updatePlayback();
     if(document.body.dataset.fixedView==='board'){window.AscendLearning?.renderBoardPage(n);if(visibleBoardViewport)visibleBoardViewport.scrollTop=0;}
     image.src=`${root}node-${n+1}.webp`;
     image.alt=`知识节点 ${n+1}：${knowledge[n][0]} · 来源于提供的课件截图`;
@@ -105,7 +109,7 @@
     document.getElementById('videoPlayed').style.width=`${(n+1)*11}%`;
     const iv=document.querySelector('.iv-video-art');
     if(iv){for(const img of iv.querySelectorAll('img')){img.src=`${root}node-${n+1}.webp`;img.alt=`知识节点 ${n+1}：${knowledge[n][0]}`;img.hidden=false;}}
-    const ivTime=document.querySelector('.iv-player-controls time');if(ivTime)ivTime.textContent=`知识节点 ${String(n+1).padStart(2,'0')} / 07`;
+    const ivTime=document.querySelector('.iv-player-controls time');if(ivTime)ivTime.textContent=`${formatTime(playbackSeconds)} / ${formatTime(playbackDuration)}`;
     const cursor=document.querySelector('.iv-timeline-cursor');if(cursor){cursor.style.left=`${8+n*11}%`;cursor.querySelector('small').textContent=knowledge[n][0];}
     document.querySelectorAll('[data-expert-iv-node]').forEach(button=>button.classList.toggle('is-current',Number(button.dataset.expertIvNode)===n));
   }
@@ -141,14 +145,14 @@
   }
   const ivTimeline=document.querySelector('.iv-timeline');
   if(ivTimeline){
-    ivTimeline.innerHTML=`<div class="iv-timeline-background"></div><span class="iv-timeline-duration">7 个知识节点</span>${knowledge.map((item,i)=>`<button type="button" class="iv-node iv-node-knowledge" style="--at:${8+i*11}%" data-expert-iv-node="${i}" aria-label="知识节点 ${i+1}：${esc(item[0])}"><span class="iv-node-label" ${i?'hidden':''}>知识</span><i></i><span class="iv-source iv-knowledge" aria-hidden="true"></span></button>`).join('')}<button type="button" class="iv-node iv-node-note" style="--at:84%" data-expert-iv-note aria-label="笔记：记录本节知识"><span class="iv-node-label">笔记</span><i></i><span class="iv-source iv-note" aria-hidden="true"></span></button><button type="button" class="iv-node iv-node-practice" style="--at:97%" data-expert-iv-practice aria-label="实践：进入文本生成实验"><span class="iv-node-label">实践</span><i></i><span class="iv-source iv-practice" aria-hidden="true"></span></button><span class="iv-timeline-cursor" style="left:8%"><i></i><small>${esc(knowledge[0][0])}</small></span>`;
+    ivTimeline.innerHTML=`<div class="iv-timeline-background"></div><span class="iv-timeline-duration"><button type="button" data-expert-play aria-label="播放"></button><time data-expert-time></time></span>${knowledge.map((item,i)=>`<button type="button" class="iv-node iv-node-knowledge" style="--at:${8+i*11}%" data-expert-iv-node="${i}" aria-label="知识节点 ${i+1}：${esc(item[0])}"><span class="iv-node-label" ${i?'hidden':''}>知识</span><i></i><span class="iv-source iv-knowledge" aria-hidden="true"></span></button>`).join('')}<button type="button" class="iv-node iv-node-note" style="--at:84%" data-expert-iv-note aria-label="笔记：记录本节知识"><span class="iv-node-label">笔记</span><i></i><span class="iv-source iv-note" aria-hidden="true"></span></button><button type="button" class="iv-node iv-node-practice" style="--at:97%" data-expert-iv-practice aria-label="实践：进入文本生成实验"><span class="iv-node-label">实践</span><i></i><span class="iv-source iv-practice" aria-hidden="true"></span></button><span class="iv-timeline-cursor" style="left:8%"><i></i><small>${esc(knowledge[0][0])}</small></span>`;
     const card=document.createElement('aside');card.className='expert-node-preview expert-iv-preview';card.hidden=true;document.body.append(card);
     const show=(button,i)=>{card.innerHTML=`<img src="${root}node-${i+1}.webp" alt=""><div><small>知识节点 ${String(i+1).padStart(2,'0')} / 07</small><strong>${esc(knowledge[i][0])}</strong><p>${esc(knowledge[i][1])}</p></div>`;card.hidden=false;const r=button.getBoundingClientRect();card.style.left=`${Math.max(12,Math.min(innerWidth-320,r.left-145))}px`;card.style.bottom=`${Math.max(110,innerHeight-r.top+10)}px`;};
     for(const button of ivTimeline.querySelectorAll('[data-expert-iv-node]')){const i=Number(button.dataset.expertIvNode);button.addEventListener('pointerenter',()=>show(button,i));button.addEventListener('focus',()=>show(button,i));button.addEventListener('pointerleave',()=>card.hidden=true);button.addEventListener('blur',()=>card.hidden=true);button.addEventListener('click',()=>{showKnowledge(i);card.hidden=true});}
     ivTimeline.querySelector('[data-expert-iv-note]').addEventListener('click',()=>window.AscendCompanion?.launch('notes'));
     ivTimeline.querySelector('[data-expert-iv-practice]').addEventListener('click',enterPractice);
     let dragStart=null;
-    ivTimeline.addEventListener('pointerdown',event=>{
+    ivTimeline.addEventListener('pointerdown',event=>{if(event.target.closest('[data-expert-play],.iv-timeline-duration'))return;
       dragStart={x:event.clientX,onButton:!!event.target.closest('button')};
       if(!dragStart.onButton)ivTimeline.setPointerCapture(event.pointerId);
     });
@@ -164,6 +168,11 @@
     });
     ivTimeline.addEventListener('pointercancel',()=>{dragStart=null});
   }
+  document.querySelector('.iv-surface')?.addEventListener('click',event=>{const button=event.target.closest('[data-expert-play],[data-iv-play]');if(!button)return;event.preventDefault();event.stopImmediatePropagation();if(playbackSeconds>=playbackDuration)playbackSeconds=0;playbackRunning=!playbackRunning;updatePlayback();},true);
+  const videoPlay=document.querySelector('[data-iv-play]');if(videoPlay){videoPlay.removeAttribute('data-iv-play');videoPlay.setAttribute('data-expert-play','');}
+  const videoTime=document.querySelector('.iv-player-controls time');if(videoTime)videoTime.setAttribute('data-expert-time','');
+  updatePlayback();
+  setInterval(()=>{if(!playbackRunning||!['video','board'].includes(document.body.dataset.fixedView))return;const next=Math.min(playbackDuration,playbackSeconds+1),node=Math.min(6,Math.floor(next/(playbackDuration/7)));if(node!==currentBoardPage)showKnowledge(node);playbackSeconds=next;if(next===playbackDuration)playbackRunning=false;updatePlayback();},1000);
   function enterPractice(){
     window.AscendLearning?.setView('experiment');
     window.MindIEPromptLab?.preview();
