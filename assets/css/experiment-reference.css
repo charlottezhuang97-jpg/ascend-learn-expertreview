@@ -212,3 +212,6 @@ body.reference-immersive[data-fixed-view=ide] .uac-body.ex-assistant-repair{padd
 @media(max-width:1100px){.ex-welcome-columns{grid-template-columns:1fr}.ex-recommended-lab{grid-template-columns:1fr 1fr}}
 @media(max-width:700px){.ex-recommended-lab{grid-template-columns:1fr}}
 @media(min-width:1101px) and (max-width:1500px){.ex-start-page{padding:28px 24px}.ex-welcome-columns{grid-template-columns:minmax(130px,.55fr) minmax(0,1.45fr);gap:20px}.ex-lab-intro{grid-template-columns:64px minmax(0,1fr);gap:10px}.ex-start-page .ex-lab-intro img.ex-lab-3d-icon{width:70px;height:90px}.ex-lab-intro strong{font-size:18px}.ex-start-page .ex-lab-intro button{grid-column:1/-1;white-space:nowrap}}
+/* Subtle homepage-style square dots beneath the experiment content. */
+.ex-recommended-lab{position:relative;isolation:isolate;overflow:hidden}
+.ex-recommended-lab:after{content:"";position:absolute;z-index:-1;pointer-events:none;left:0;right:0;bottom:0;height:110px;background-image:radial-gradient(circle,rgba(94,122,217,.22) 1.5px,transparent 1.7px);background-size:16px 16px;mask-image:linear-gradient(transparent,#000);-webkit-mask-image:linear-gradient(transparent,#000)}
