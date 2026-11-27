@@ -182,3 +182,11 @@ body.reference-immersive[data-fixed-view=ide] .uac-body.ex-assistant-repair{padd
 .ex-surface:not(.ex-start-empty) .ex-editor-actions>[data-ex-run]{display:grid;visibility:visible;opacity:1;min-width:26px}.ex-editor-actions>[data-ex-run]>img{display:block;width:20px;height:20px}
 
 .ex-walkthroughs>[data-welcome-guide="mindie"]{min-height:112px;padding:18px 15px;border:1px solid #e2ddf8;background:linear-gradient(120deg,#f5f2ff,#edf6ff);border-radius:14px;box-shadow:0 5px 20px #7760aa0a;gap:14px}.ex-start-page img.ex-lab-3d-icon{width:68px;height:68px;object-fit:contain}.ex-walkthroughs>[data-welcome-guide="mindie"]:hover{border-color:#b7a5f1;box-shadow:0 6px 22px #7562ad18}.ex-walkthroughs>[data-welcome-guide="mindie"] strong{color:#41405d}
+
+/* Welcome-page typography follows the HiDevLab black text baseline. */
+.ex-start-page,.ex-start-page h1,.ex-start-page h2,.ex-start-page p,.ex-start-page button,.ex-walkthroughs strong,.ex-walkthroughs small,.ex-welcome-recent>p{color:#191919}
+.ex-start-page button:hover{color:#191919;text-decoration:none}
+.ex-walkthroughs .ex-experiment-hint{font-size:14px;line-height:1.6;margin:-6px 0 18px}
+.ex-walkthroughs>[data-welcome-guide="mindie"],.ex-walkthroughs>[data-welcome-guide="mindie"]:hover{border:0;box-shadow:none;text-decoration:none;padding:22px 20px}
+.ex-walkthroughs>[data-welcome-guide="mindie"] strong{color:#191919;font-size:18px;line-height:1.5;text-decoration:none}
+.ex-walkthroughs>[data-welcome-guide="mindie"] small{color:#191919;font-size:14px;line-height:1.6;margin-top:7px;text-decoration:none}
