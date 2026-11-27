@@ -51,11 +51,12 @@ const courses = {
     summary:'从生成式 AI 基础出发，认识昇腾软硬件平台，并在 MindIE 中完成文本生成推理实验。',
     previewTitle:'完成一次文本生成推理实验',
     intro:'先理解生成式 AI 与昇腾平台，再通过 MindIE 文本生成实验完成推理快速入门。',
-    meta:['2 章节','5 小节','约 3 小时','适合：希望入门模型推理的开发者'],
+    meta:['2 章节','9 小节','约 4 小时','适合：希望入门模型推理的开发者'],
     outcome:'沿预训练、微调、模型适配内容学习，实践了解数据处理、权重转换、训练和评估等操作。',
     stages:[
       {title:'推理基础',unitRange:'章节 1',reason:'了解生成式 AI、昇腾平台及典型应用，为文本生成推理实验建立基础。',units:[
-        {number:1,title:'生成式AI基础知识',description:'从基本概念到昇腾平台应用，建立生成式 AI 的整体认识。',lessons:[['课程','生成式AI概述','20 分钟'],['课程','昇腾AI基础软硬件平台','20 分钟'],['课程','生成式AI在昇腾平台上的应用案例','20 分钟'],['课程','生成式AI展望','15 分钟']]}
+        {number:1,title:'生成式AI基础知识',description:'从基本概念到昇腾平台应用，建立生成式 AI 的整体认识。',lessons:[['课程','生成式AI概述','20 分钟'],['课程','昇腾AI基础软硬件平台','20 分钟'],['课程','生成式AI在昇腾平台上的应用案例','20 分钟'],['课程','生成式AI展望','15 分钟']]},
+        {number:2,title:'大模型与文本生成原理',description:'理解大模型如何生成文本，认识提示词与推理参数，为 MindIE 文本生成实验做好准备。',lessons:[['课程','大模型如何生成文本：Token 与逐词预测','15 分钟'],['课程','从预训练、微调到推理：理解模型的学习与使用','20 分钟'],['课程','提示词基础：任务、上下文与输出要求','15 分钟'],['课程','文本生成参数：输出长度、温度与采样','15 分钟']]}
       ]},
       {title:'基于MindIE的生成式AI入门',unitRange:'章节 2',reason:'通过文本生成推理快速入门，完成一次 MindIE 实验。',units:[
         {number:1,title:'文本生成推理快速入门',description:'在实验环境中依次完成准备、推理请求与结果查看。',lessons:[['实践','文本生成实验','90 分钟']]}
@@ -83,7 +84,7 @@ if(courseKey==='inference'){
   document.querySelector('.custom-plan-card')?.remove();
   const progress=document.querySelector('.learning-progress-block');
   progress.querySelector('.progress-head strong span').textContent='0%';
-  progress.querySelector('.progress-head>span').textContent='已学 0 / 5 课时';
+  progress.querySelector('.progress-head>span').textContent='已学 0 / 9 课时';
   progress.querySelector('.progress-track').setAttribute('aria-valuenow','0');
 }
 const setText = (selector,value)=>document.querySelectorAll(selector).forEach(el=>el.textContent=value);
@@ -121,12 +122,13 @@ nav.innerHTML=course.stages.map((stage,index)=>{
   unitCount+=units.length;
   const count=units.reduce((sum,unit)=>sum+unit.lessons.length,0);
   lessonCount+=count;
-  const unitRows=units.map(unit=>{
+  const unitRows=units.map((unit,unitIndex)=>{
+    const displayNumber=courseKey==='inference'?previousUnits+unitIndex+1:unit.number;
     const lessons=unit.lessons.map(([kind,title,duration],lessonIndex)=>{
       resourceItems.push({kind,title,duration,unit:unit.number});
-      return `<li class="stage-unit lesson-row" data-kind="${escapeHtml(kind)}"><a class="lesson-link" href="learn.html?course=${encodeURIComponent(courseKey==='inference'?'mindie':courseKey)}&unit=${unit.number}-${lessonIndex+1}"><span class="lesson-play" aria-hidden="true">${courseKey==='inference'?learningContentIcon:'⊙'}</span><span class="lesson-number">${courseKey==='inference'?`${index+1}.${lessonIndex+1}`:`${lessonIndex+1}.`}</span><span class="unit-title">${escapeHtml(title)}</span><span class="unit-duration">${escapeHtml(duration)}</span><span class="lesson-status" aria-hidden="true"></span></a></li>`;
+      return `<li class="stage-unit lesson-row" data-kind="${escapeHtml(kind)}"><a class="lesson-link" href="learn.html?course=${encodeURIComponent(courseKey==='inference'?'mindie':courseKey)}&unit=${unit.number}-${lessonIndex+1}"><span class="lesson-play" aria-hidden="true">${courseKey==='inference'?learningContentIcon:'⊙'}</span><span class="lesson-number">${courseKey==='inference'?`${displayNumber}.${lessonIndex+1}`:`${lessonIndex+1}.`}</span><span class="unit-title">${escapeHtml(title)}</span><span class="unit-duration">${escapeHtml(duration)}</span><span class="lesson-status" aria-hidden="true"></span></a></li>`;
     }).join('');
-    const heading=units.length>1||courseKey==='inference'?`<div class="unit-card-head"><span class="unit-card-number">${unit.number}</span><div><h4>${escapeHtml(unit.title)}</h4><p>${escapeHtml(unit.description)}</p></div></div>`:'';
+    const heading=units.length>1||courseKey==='inference'?`<div class="unit-card-head"><span class="unit-card-number">${displayNumber}</span><div><h4>${escapeHtml(unit.title)}</h4><p>${escapeHtml(unit.description)}</p></div></div>`:'';
     return `<li class="unit-card">${heading}<ol class="lesson-list" aria-label="单元 ${unit.number} 的课节">${lessons}</ol></li>`;
   }).join('');
   const phase=index===0?'理论篇':courseKey==='inference'?'实践篇':index===course.stages.length-1?'微认证':'实践篇';
@@ -140,7 +142,12 @@ document.querySelector('#resourceCount').textContent=String(resourceItems.length
 setText('[data-route-outcome]',course.outcome);
 const outcomeList=document.querySelector('#outcomeList');
 outcomeList.innerHTML=(courseKey==='inference'?[{title:'了解什么是预训练、微调、模型。'},{title:'完成实践，了解数据处理、权重转换、训练和评估等操作。'}]:course.stages.slice(0,3)).map((stage,index)=>`<li><span aria-hidden="true">✓</span><span>${escapeHtml(courseKey==='inference'?stage.title:index===0?`理解${stage.title}的核心概念`:index===1?`完成${stage.title}相关实践`:`掌握${stage.title}并验证学习成果`)}</span></li>`).join('');
-if(courseKey==='inference')document.querySelector('.outcome-result').hidden=true;
+if(courseKey==='inference'){
+  document.querySelector('.outcome-result').hidden=true;
+  document.querySelector('#peerTitle').textContent='推荐下一步学习';
+  document.querySelector('.peer-summary').textContent='和你学习方向相似的同学也在学这个';
+  document.querySelectorAll('.stat-item').forEach(item=>{if(item.querySelector('small')?.textContent==='学习时长')item.querySelector('strong').innerHTML='230 <small>min</small>';});
+}
 if(route)route.hidden=true;
 
 
