@@ -37,7 +37,7 @@
   }
   const buildOutput='<p>Downloading org.apache.maven.plugins:maven-j　 <span>21 sec,60 ms</span></p><p>Downloading org.apache.maven.plugins:maven-re　 <span>21 sec,121 ms</span></p><p><code>chunk {0} <em>runtime.38f7659sdbsoyt7980svjsbhcdskb.js</em> (runtime) 2.25 KB [entry] <em>[rendered]</em></code></p><p><code>chunk {1} <em>common.jsdtfha687adftadjgsf5557.js</em> (common) 1.79 KB <em>[rendered]</em></code></p><p>Downloading org.apache.maven.plugins:maven-j　 <span>21 sec,60 ms</span></p>';
   let diagnostic='';
-  function paintConsole(){surface.querySelectorAll('[data-ex-console]').forEach(b=>{const selected=b.dataset.exConsole===consoleTab;b.classList.toggle('active',selected);b.setAttribute('aria-selected',String(selected));});consoleContent.innerHTML=consoleTab==='Problem'?(stage==='error'||stage==='suggestion'?`<p class="ex-console-error">${icon('error')} ${filename}:${pathLine(code)}　${esc(diagnostic||'modelWeightPath 使用了主机路径，请改为容器可见路径。')}</p>`:'<p>没有待处理的问题。</p>'):consoleTab==='Event'?'<p>本地实验交互示例，未连接真实 NPU 或容器。</p>':buildOutput;}
+  function paintConsole(){surface.querySelectorAll('[data-ex-console]').forEach(b=>{const selected=b.dataset.exConsole===consoleTab;b.classList.toggle('active',selected);b.setAttribute('aria-selected',String(selected));});consoleContent.innerHTML=consoleTab==='Problem'?(stage==='error'||stage==='suggestion'?`<p class="ex-console-error">${icon('error')} ${filename}:${pathLine(code)}　${esc(diagnostic||'modelWeightPath 使用了主机路径，请改为容器可见路径。')}</p>`:'<p>没有待处理的问题。</p>'):consoleTab==='Event'?'<p>本地实验交互示例，未连接真实 NPU 或容器。</p>':consoleTab==='Terminal'&&new URLSearchParams(location.search).get('course')==='mindie'?'':buildOutput;}
   function run(){
     if(runTimer||generationTimer)return;
     const id=++runId;stage='running';paint();status('正在检查配置');
@@ -101,6 +101,7 @@
   }
   surface.addEventListener('click',click);panel.addEventListener('click',click);
   surface.querySelector('[data-ex-run]').title='运行和调试 · 本地配置检查示例';
+  surface.querySelector('.ex-editor-actions>[data-ex-run]').innerHTML='<img src="assets/images/experiment-reference/debug.svg" alt="" width="20" height="20">';
   paint();sync();
   if(new URLSearchParams(location.search).get('course')==='mindie'){
     const editor=surface.querySelector('.ex-editor'),tree=surface.querySelector('.ex-tree'),tabs=surface.querySelector('.ex-tabs'),crumb=surface.querySelector('.ex-breadcrumb');
@@ -110,17 +111,23 @@
     const files=new Map();let selected='';
     surface.querySelector('.ex-explorer>header').innerHTML=`Project <button type="button" data-start-action="folder" aria-label="新建文件夹" title="新建文件夹">${welcomeIcon('folder-plus')}</button>`;
     function showWelcome(){welcome.hidden=false;surface.classList.add('ex-start-empty');if(!tabs.querySelector('[data-welcome-tab]')){const tab=document.createElement('button');tab.type='button';tab.className='active ex-welcome-tab';tab.dataset.welcomeTab='';tab.setAttribute('role','tab');tab.setAttribute('aria-selected','true');tab.innerHTML=welcomeIcon('workspace')+'欢迎';tabs.prepend(tab);}tabs.querySelector('.ex-editor-actions').style.visibility='visible';const recent=welcome.querySelector('.ex-welcome-recent');recent.innerHTML=files.size?[...files.keys()].map(n=>`<button type="button" data-lab-file="${esc(n)}">${welcomeIcon('history')}${esc(n)}</button>`).join(''):'<p>尚未打开项目</p><button type="button" data-start-action="open">打开文件，开始你的第一个实验</button>';}
-    function openFile(name){if(!files.has(name))return;selected=name;tabs.querySelector('[data-welcome-tab]')?.remove();welcome.hidden=true;surface.classList.remove('ex-start-empty');code=files.get(name);input.value=code;stage='idle';proposal='';showRepair=false;paint();tabs.querySelectorAll('[data-ex-tab]').forEach(x=>x.remove());const tab=document.createElement('button');tab.type='button';tab.className='active';tab.textContent=name;tab.setAttribute('role','tab');tab.setAttribute('aria-selected','true');tab.dataset.exTab=name;tabs.prepend(tab);crumb.textContent='MindIE / '+name;surface.querySelector('.ex-code-caption').textContent=name;input.setAttribute('aria-label',name+' 代码编辑器');paintTree();}
+    function openFile(name){if(!files.has(name))return;selected=name;tabs.querySelector('[data-welcome-tab]')?.remove();welcome.hidden=true;surface.classList.remove('ex-start-empty');code=files.get(name);input.value=code;stage='idle';proposal='';showRepair=false;paint();tabs.querySelectorAll('[data-ex-tab]').forEach(x=>x.remove());const tab=document.createElement('button');tab.type='button';tab.className='active';tab.textContent=name;tab.setAttribute('role','tab');tab.setAttribute('aria-selected','true');tab.dataset.exTab=name;tabs.prepend(tab);crumb.textContent=(name==='model-config.json'?'MindIE / Qwen2-7B / ':'MindIE / ')+name;surface.querySelector('.ex-code-caption').textContent=name;input.setAttribute('aria-label',name+' 代码编辑器');paintTree();}
     let folders=[];
-    function paintTree(){tree.innerHTML=folders.map(n=>`<details open><summary>${icon('folder')}<span>${esc(n)}</span></summary></details>`).join('')+[...files.keys()].map(n=>`<button type="button" class="ex-tree-file ${n===selected?'active':''}" data-lab-file="${esc(n)}">${icon('file')}<span>${esc(n)}</span></button>`).join('');}
+    function paintTree(){
+      const fileButton=n=>`<button type="button" class="ex-tree-file ${n===selected?'active':''}" data-lab-file="${esc(n)}">${icon(n.endsWith('.json')?'json':'file')}<span>${esc(n)}</span></button>`;
+      const modelFiles=[...files.keys()].filter(n=>n==='model-config.json');
+      const mindieFiles=[...files.keys()].filter(n=>['environment.sh',filename].includes(n));
+      const assigned=new Set([...modelFiles,...mindieFiles]);
+      tree.innerHTML=(folders.includes('MindIE')?`<details open data-lab-folder="MindIE"><summary>${icon('folder')}<span>MindIE</span></summary><div>${mindieFiles.map(fileButton).join('')}${folders.includes('Qwen2-7B')?`<details open data-lab-folder="Qwen2-7B"><summary>${icon('folder')}<span>Qwen2-7B</span></summary><div>${modelFiles.map(fileButton).join('')}</div></details>`:''}</div></details>`:'')+folders.filter(n=>!['MindIE','Qwen2-7B'].includes(n)).map(n=>`<details open><summary>${icon('folder')}<span>${esc(n)}</span></summary><div></div></details>`).join('')+[...files.keys()].filter(n=>!assigned.has(n)||!folders.includes('MindIE')).map(fileButton).join('');
+    }
     function progress(phase){
       if(phase<0){files.clear();folders=[];selected='';code='';input.value='';welcome.hidden=false;surface.classList.add('ex-start-empty');tabs.querySelectorAll('[data-ex-tab]').forEach(x=>x.remove());crumb.textContent='';consoleContent.innerHTML='';paintTree();showWelcome();return;}
-      if(phase===0){consoleContent.textContent='正在准备 MindIE 实验环境…';return;}
+      if(phase===0){consoleContent.textContent='';return;}
       folders=['MindIE'];
       if(phase>=1)files.set('environment.sh','# MindIE 环境准备\nexport ASCEND_HOME_PATH=/usr/local/Ascend/ascend-toolkit/latest\nsource "$ASCEND_HOME_PATH/bin/setenv.bash"');
       if(phase>=2){files.set('model-config.json',JSON.stringify({modelName:'qwen2-7b',modelWeightPath:'/home/weights/',image:'MindIE'},null,2));folders=['MindIE','Qwen2-7B'];}
       if(phase>=3)files.set(filename,original);
-      openFile(phase>=3?filename:phase>=2?'model-config.json':'environment.sh');consoleContent.textContent=['','环境准备完成','模型权重与镜像准备完成','模型推理配置已生成'][Math.min(phase,3)];
+      openFile(phase>=3?filename:phase>=2?'model-config.json':'environment.sh');consoleContent.textContent='';
     }
     surface.addEventListener('click',event=>{const guide=event.target.closest('[data-welcome-guide]');if(guide){if(guide.dataset.welcomeGuide==='mindie'){window.MindIEPromptLab?.start();return;}const detail=welcome.querySelector('.ex-welcome-guide');detail.hidden=false;detail.textContent=guide.dataset.welcomeGuide==='basics'?'在左侧创建文件或文件夹，点击文件进行编辑。终端用于查看实验命令与输出。':'点击 MindIE 文本生成实验，开始环境准备与推理验证。';return;}if(event.target.closest('[data-welcome-tab]')){showWelcome();return;}const f=event.target.closest('[data-lab-file]');if(f){openFile(f.dataset.labFile);return;}const b=event.target.closest('[data-start-action]');if(!b)return;const action=b.dataset.startAction;if(action==='file'){const n=prompt('文件名称','untitled.txt');if(n&&n.trim()){files.set(n.trim(),'');openFile(n.trim());}}else if(action==='folder'||action==='workspace'){const n=prompt(action==='folder'?'文件夹名称':'工作区名称','MindIE');if(n&&n.trim()){folders.push(n.trim());paintTree();}}else if(action==='open'){const picker=document.createElement('input');picker.type='file';picker.onchange=async()=>{const f=picker.files[0];if(f){files.set(f.name,await f.text());openFile(f.name);}};picker.click();}else{window.AscendLearning.showToast(action==='clone'?'请在实验环境连接后克隆 Git 仓库':'发送右侧引导问题，开始准备实验环境');}});
     input.addEventListener('input',()=>{if(selected)files.set(selected,input.value);});
