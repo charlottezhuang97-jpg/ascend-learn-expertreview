@@ -154,7 +154,7 @@
     ivTimeline.querySelector('[data-expert-iv-note]').addEventListener('click',()=>window.AscendCompanion?.launch('notes'));
     ivTimeline.querySelector('[data-expert-iv-practice]').addEventListener('click',enterPractice);
     let dragStart=null;
-    ivTimeline.addEventListener('pointerdown',event=>{if(event.target.closest('[data-expert-play],.iv-timeline-duration'))return;
+    ivTimeline.addEventListener('pointerdown',event=>{if(event.target.closest('[data-expert-play],.iv-timeline-duration,.expert-timeline-actions'))return;
       dragStart={x:event.clientX,onButton:!!event.target.closest('button')};
       if(!dragStart.onButton)ivTimeline.setPointerCapture(event.pointerId);
     });
@@ -173,6 +173,14 @@
   document.querySelector('.iv-surface')?.addEventListener('click',event=>{const button=event.target.closest('[data-expert-play],[data-iv-play]');if(!button)return;event.preventDefault();event.stopImmediatePropagation();if(playbackSeconds>=playbackDuration)playbackSeconds=0;playbackRunning=!playbackRunning;updatePlayback();},true);
   const videoPlay=document.querySelector('[data-iv-play]');if(videoPlay){videoPlay.removeAttribute('data-iv-play');videoPlay.setAttribute('data-expert-play','');}
   const videoTime=document.querySelector('.iv-player-controls time');if(videoTime)videoTime.setAttribute('data-expert-time','');
+  const legacyControls=document.querySelector('.iv-player-controls');
+  if(legacyControls&&ivTimeline){
+    const auxiliary=document.createElement('div');auxiliary.className='expert-timeline-actions';auxiliary.setAttribute('aria-label','播放辅助控制');
+    legacyControls.querySelectorAll('[data-iv-sound],[data-iv-transcript],[data-iv-fullscreen]').forEach(button=>auxiliary.append(button));
+    ivTimeline.append(auxiliary);
+    legacyControls.querySelectorAll('[data-expert-play],time').forEach(el=>el.remove());
+    legacyControls.hidden=true;
+  }
   updatePlayback();
   setInterval(()=>{if(!playbackRunning||!['video','board'].includes(document.body.dataset.fixedView))return;const next=Math.min(playbackDuration,playbackSeconds+1),node=Math.min(6,Math.floor(next/(playbackDuration/7)));if(node!==currentBoardPage)showKnowledge(node);playbackSeconds=next;if(next===playbackDuration)playbackRunning=false;updatePlayback();},1000);
   function enterPractice(){
