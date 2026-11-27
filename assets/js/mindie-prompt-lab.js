@@ -75,9 +75,8 @@
     const fixture=window.MindIEExpertSample;
     if(!fixture)return;
     document.querySelector('.ide-tabs [data-mindie-step="7"]')?.click();
-    window.MindIETerminal?.write({id:`mindie-example-${Date.now()}`,host:'A',command:fixture.code,status:'success',output:`[文本生成推理示例 · 未发送真实请求]\n${fixture.response}`},{reveal:true});
-    window.MindIEExpertShowTerminal?.(fixture);
-    window.AscendLearning?.showToast('命令已置入终端示例，展示了提供的响应；未连接真实服务。');
+    window.MindIEExpertShowTerminal?.(fixture,{pending:true});
+
   });
   panel.addEventListener('submit', submit, true);
 })();

@@ -71,3 +71,5 @@
 .mindie-course .expert-timeline-actions button[aria-pressed="true"]{opacity:.45}
 
 .mindie-course .expert-timeline-actions button>img{display:block;width:20px;height:20px;filter:none}
+
+.mindie-course .expert-terminal-enter-hint{margin:14px 0 0;color:#777e8a;font:12px/1.6 inherit}.mindie-course .ex-console-content:focus{outline:none}

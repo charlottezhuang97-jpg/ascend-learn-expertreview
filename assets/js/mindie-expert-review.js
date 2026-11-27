@@ -218,17 +218,28 @@ Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和�
   const code=window.MindIELab?.steps?.[7]?.code;
   window.MindIEExpertSample={code,response:sampleResponse};
   let commandPlaced=false;
-  function showExperimentTerminal(fixture=window.MindIEExpertSample){
+  let pendingCommand=false;
+  let terminalFixture=null;
+  function showExperimentTerminal(fixture=terminalFixture||window.MindIEExpertSample,options={}){
     if(!fixture?.code)return;
     commandPlaced=true;
+    terminalFixture=fixture;
+    if(options.pending!==undefined)pendingCommand=options.pending;
     const surface=document.querySelector('.ex-surface');
     const tab=surface?.querySelector('[data-ex-console="Terminal"]');
     const output=surface?.querySelector('.ex-console-content');
     if(!tab||!output)return;
     surface.querySelectorAll('[data-ex-console]').forEach(button=>{const selected=button===tab;button.classList.toggle('active',selected);button.setAttribute('aria-selected',String(selected));});
-    output.innerHTML=`<div class="expert-terminal-session"><pre class="expert-terminal-command"><span class="expert-terminal-prompt">mindie@lab:~$</span> ${esc(fixture.code)}</pre><pre class="expert-terminal-response"><span class="expert-terminal-output-label">output 结果</span> ${esc(fixture.response)}</pre></div>`;
-    requestAnimationFrame(()=>{output.scrollTop=output.querySelector('.expert-terminal-command')?.offsetHeight||0;});
+    output.tabIndex=0;
+    output.setAttribute('aria-label','实验终端，敲击回车显示结果');
+    output.innerHTML=`<div class="expert-terminal-session"><pre class="expert-terminal-command"><span class="expert-terminal-prompt">mindie@lab:~$</span> ${esc(fixture.code)}</pre>${pendingCommand?'<p class="expert-terminal-enter-hint">敲击回车显示结果 <span aria-hidden="true">↵</span></p>':`<pre class="expert-terminal-response"><span class="expert-terminal-output-label">output 结果</span> ${esc(fixture.response)}</pre>`}</div>`;
+    requestAnimationFrame(()=>{output.scrollTop=pendingCommand?0:output.querySelector('.expert-terminal-command')?.offsetHeight||0;if(pendingCommand)output.focus({preventScroll:true});});
   }
+  document.querySelector('.ex-console-content')?.addEventListener('keydown',event=>{
+    if(event.key!=='Enter'||!pendingCommand||event.isComposing)return;
+    event.preventDefault();event.stopPropagation();pendingCommand=false;showExperimentTerminal();
+  });
+
   window.MindIEExpertShowTerminal=showExperimentTerminal;
   document.querySelector('.ex-surface')?.addEventListener('click',event=>{if(commandPlaced&&event.target.closest('[data-ex-console="Terminal"]'))queueMicrotask(()=>showExperimentTerminal());});
   // Direct IDE links use the same ready-to-send entry as the practice node.
