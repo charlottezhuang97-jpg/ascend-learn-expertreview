@@ -97,6 +97,7 @@
     if(!image)return;
     const n=Math.max(0,Math.min(6,index));
     currentBoardPage=n;
+    if(document.body.dataset.fixedView==='board'){window.AscendLearning?.renderBoardPage(n);if(visibleBoardViewport)visibleBoardViewport.scrollTop=0;}
     image.src=`${root}node-${n+1}.webp`;
     image.alt=`知识节点 ${n+1}：${knowledge[n][0]} · 来源于提供的课件截图`;
     if(subtitle)subtitle.textContent=`知识 ${String(n+1).padStart(2,'0')} / 07 · ${knowledge[n][0]}`;
