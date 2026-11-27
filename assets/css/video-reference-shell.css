@@ -63,7 +63,7 @@ body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[dat
 .iv-footer nav button.active{background:#fff;box-shadow:0 1px 6px #00000014;color:#191919;font-weight:600;font-size:16px}
 .iv-footer>div{display:flex;gap:24px}.iv-footer>div button{display:flex;align-items:center;gap:8px;padding:0;height:32px;font-size:16px;line-height:24px}
 /* Floating assistant geometry is shared with the homepage window; content is the video reference. */
-body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-panel{position:fixed!important;z-index:220;top:32px!important;right:12px!important;bottom:32px!important;left:auto!important;width:480px!important;height:calc(100dvh - 64px)!important;max-height:none;border:0!important;border-radius:16px!important;background:linear-gradient(110deg,#f5fcfc 0%,#fff 50%,#f8f4ff 100%) 0 0/100% 205px no-repeat,#fff;box-shadow:0 1px 6px #00000014!important;color:#191919;font:14px/22px IVHarmony,'PingFang SC',sans-serif}
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-panel{position:fixed!important;z-index:220;top:32px!important;right:12px!important;bottom:32px!important;left:auto!important;width:480px!important;height:calc(100dvh - 64px)!important;max-height:none;border:0!important;border-radius:16px!important;background:radial-gradient(ellipse 90% 420px at 0 0,rgba(221,246,248,.5),transparent 100%),radial-gradient(ellipse 100% 500px at 100% 0,rgba(235,223,255,.43),transparent 100%),#fff;box-shadow:0 1px 6px #00000014!important;color:#191919;font:14px/22px IVHarmony,'PingFang SC',sans-serif}
 body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-panel .uac-header{height:76px;padding:16px 16px 16px 24px;border:0;background:transparent;gap:0}
 body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-header .uac-back{display:none!important}
 .iv-assistant-drag{display:flex;align-items:center;gap:8px;flex:1;min-width:0;align-self:stretch;cursor:grab;touch-action:none;user-select:none;border-radius:6px}
@@ -256,3 +256,13 @@ body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[dat
 .iv-transcript-list button[aria-current=true] .iv-row-copy{padding-left:16px}
 @media(max-width:1300px){.iv-board-viewport{left:32px;right:32px}.iv-summary-sections{margin-left:26px;margin-right:0}.iv-knowledge-card h5{font-size:14px}.iv-summary-section{padding:12px}.iv-summary-section>summary{font-size:14px}}
 @media(max-width:800px){.iv-board-viewport{left:16px;right:16px;top:94px}.iv-board-mode .iv-course-header{top:14px}.iv-board-mode .iv-canvas-tools{top:52px}body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-panel:is([data-feature=course],[data-feature=chapter],[data-feature=notes],[data-feature=cards],[data-feature=summary],[data-feature=transcript]){top:auto!important;right:12px!important;bottom:12px!important}}
+
+/* Welcome portrait and full-width shortcuts on a continuous soft gradient. */
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-body.uac-empty{padding:12px 28px 20px}
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-assistant-intro{margin:0 0 24px}
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-welcome-mascot{display:block;width:116px;height:126px;object-fit:contain;margin:0 auto 12px;filter:drop-shadow(0 7px 12px #9badd21c)}
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-body.uac-empty>.uac-cards{grid-template-columns:minmax(0,1fr);gap:12px}
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-body.uac-empty>.uac-cards>button{width:100%;height:78px;min-height:78px;padding:14px 22px;gap:18px;background:rgba(246,247,249,.85)}
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-body.uac-empty .uac-card-copy{gap:5px}
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-body.uac-empty .uac-card-copy small{font-size:12px;white-space:normal}
+body.reference-immersive:is([data-fixed-view=video],[data-fixed-view=board],[data-fixed-view=ide]) .uac-body.uac-empty .uac-card-copy strong{font-size:16px}

@@ -207,7 +207,7 @@ body.reference-immersive[data-fixed-view=ide] .uac-body.ex-assistant-repair{padd
 .ex-inference-preview{border-radius:14px;background:rgba(255,255,255,.78);box-shadow:0 0 0 1px #cdd7f4;overflow:hidden}
 .ex-inference-preview h3{font-size:14px;margin:0;padding:12px 16px;border-bottom:1px solid #e3e9f7;color:#465371}
 .ex-inference-preview dl{display:grid;grid-template-columns:32px minmax(0,1fr);gap:18px 12px;margin:0;padding:18px 16px;font-size:14px;line-height:1.7}
-.ex-inference-preview dt{color:#7b8499}.ex-inference-preview dd{margin:0}.ex-inference-preview dd:last-child{color:#4764ab}
+.ex-inference-preview dt{color:#7b8499}.ex-inference-preview dd{margin:0}.ex-inference-preview dd:last-child{color:#191919}
 @media(max-width:1500px){.ex-recommended-lab{grid-template-columns:1fr;padding:22px}.ex-lab-intro{grid-template-columns:100px minmax(0,1fr)}.ex-start-page .ex-lab-intro button{grid-column:2}}
 @media(max-width:1100px){.ex-welcome-columns{grid-template-columns:1fr}.ex-recommended-lab{grid-template-columns:1fr 1fr}}
 @media(max-width:700px){.ex-recommended-lab{grid-template-columns:1fr}}
@@ -215,3 +215,5 @@ body.reference-immersive[data-fixed-view=ide] .uac-body.ex-assistant-repair{padd
 /* Subtle homepage-style square dots beneath the experiment content. */
 .ex-recommended-lab{position:relative;isolation:isolate;overflow:hidden}
 .ex-recommended-lab:after{content:"";position:absolute;z-index:-1;pointer-events:none;left:0;right:0;bottom:0;height:110px;background-image:radial-gradient(circle,rgba(94,122,217,.22) 1.5px,transparent 1.7px);background-size:16px 16px;mask-image:linear-gradient(transparent,#000);-webkit-mask-image:linear-gradient(transparent,#000)}
+
+.ex-inference-preview h3{display:flex;align-items:center;gap:7px}.ex-inference-preview h3 img{display:block;width:18px;height:18px}
