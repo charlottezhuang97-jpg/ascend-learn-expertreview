@@ -112,6 +112,8 @@ let unitCount=0;
 let resourceItems=[];
 const moduleRoman=['一','二','三','四','五','六','七','八'];
 const timelineBookIcon='<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 8.2c-3.9-2.7-8-2.9-12-2.4v17.5c4-.5 8.1-.3 12 2.4 3.9-2.7 8-2.9 12-2.4V5.8c-4-.5-8.1-.3-12 2.4Z"/><path d="M16 8.2v17.5M20 11.2h5M20 15h5M20 18.8h4"/></svg>';
+const learningContentIcon='<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6Z"/><path d="M14 3v6h6M8 13h8M8 17h6"/></svg>';
+const practiceIcon='<img src="assets/images/course-detail/practice-line.svg" width="27" height="27" alt="">';
 nav.innerHTML=course.stages.map((stage,index)=>{
   const selected=index===0;
   const previousUnits=course.stages.slice(0,index).reduce((count,item)=>count+item.units.length,0);
@@ -122,14 +124,14 @@ nav.innerHTML=course.stages.map((stage,index)=>{
   const unitRows=units.map(unit=>{
     const lessons=unit.lessons.map(([kind,title,duration],lessonIndex)=>{
       resourceItems.push({kind,title,duration,unit:unit.number});
-      return `<li class="stage-unit lesson-row" data-kind="${escapeHtml(kind)}"><a class="lesson-link" href="learn.html?course=${encodeURIComponent(courseKey==='inference'?'mindie':courseKey)}&unit=${unit.number}-${lessonIndex+1}"><span class="lesson-play" aria-hidden="true">⊙</span><span class="lesson-number">${lessonIndex+1}.</span><span class="unit-title">${escapeHtml(title)}</span><span class="unit-duration">${escapeHtml(duration)}</span><span class="lesson-status" aria-hidden="true"></span></a></li>`;
+      return `<li class="stage-unit lesson-row" data-kind="${escapeHtml(kind)}"><a class="lesson-link" href="learn.html?course=${encodeURIComponent(courseKey==='inference'?'mindie':courseKey)}&unit=${unit.number}-${lessonIndex+1}"><span class="lesson-play" aria-hidden="true">${courseKey==='inference'?learningContentIcon:'⊙'}</span><span class="lesson-number">${courseKey==='inference'?`${index+1}.${lessonIndex+1}`:`${lessonIndex+1}.`}</span><span class="unit-title">${escapeHtml(title)}</span><span class="unit-duration">${escapeHtml(duration)}</span><span class="lesson-status" aria-hidden="true"></span></a></li>`;
     }).join('');
     const heading=units.length>1||courseKey==='inference'?`<div class="unit-card-head"><span class="unit-card-number">${unit.number}</span><div><h4>${escapeHtml(unit.title)}</h4><p>${escapeHtml(unit.description)}</p></div></div>`:'';
     return `<li class="unit-card">${heading}<ol class="lesson-list" aria-label="单元 ${unit.number} 的课节">${lessons}</ol></li>`;
   }).join('');
   const phase=index===0?'理论篇':courseKey==='inference'?'实践篇':index===course.stages.length-1?'微认证':'实践篇';
   const start=index===0?`<a class="module-start" href="learn.html?course=${encodeURIComponent(courseKey==='inference'?'mindie':courseKey)}&unit=${units[0]?.number||1}-1">从这开始学</a>`:'';
-  return `<li class="module-item"><span class="timeline-node" aria-hidden="true">${timelineBookIcon}</span><article class="module-card"><div class="module-card-heading"><div class="module-heading-top"><span class="module-kicker">章节${moduleRoman[index]||index+1}：${phase}</span><div class="module-heading-actions"><span class="module-meta">${count}项学习内容</span><button type="button" class="module-toggle" data-stage-index="${index}" aria-controls="module-content-${index}" aria-expanded="true" aria-pressed="${selected}" ${selected?'aria-current="step"':''}>收起⌃</button></div></div><h3>${escapeHtml(stage.title)}</h3><p>${escapeHtml(stage.reason)}</p>${start}</div><div class="module-content" id="module-content-${index}"><ol class="module-units" aria-label="${escapeHtml(stage.title)}课程内容">${unitRows}</ol>${index===course.stages.length-1&&courseKey!=='inference'?'<p class="module-certificate">完成课程学习并通过考核后，可获得课程认证。</p>':''}</div></article></li>`;
+  return `<li class="module-item"><span class="timeline-node" aria-hidden="true">${courseKey==='inference'&&index===1?practiceIcon:timelineBookIcon}</span><article class="module-card"><div class="module-card-heading"><div class="module-heading-top"><span class="module-kicker">章节${moduleRoman[index]||index+1}：${phase}</span><div class="module-heading-actions"><span class="module-meta">${count}项学习内容</span><button type="button" class="module-toggle" data-stage-index="${index}" aria-controls="module-content-${index}" aria-expanded="true" aria-pressed="${selected}" ${selected?'aria-current="step"':''}>收起⌃</button></div></div><h3>${escapeHtml(stage.title)}</h3><div class="module-description-row"><p>${escapeHtml(stage.reason)}</p>${start}</div></div><div class="module-content" id="module-content-${index}"><ol class="module-units" aria-label="${escapeHtml(stage.title)}课程内容">${unitRows}</ol>${index===course.stages.length-1&&courseKey!=='inference'?'<p class="module-certificate">完成课程学习并通过考核后，可获得课程认证。</p>':''}</div></article></li>`;
 }).join('');
 const totalLessons=course.stages.reduce((sum,stage)=>sum+stage.units.reduce((inner,raw,index)=>inner+normalizeUnit(raw,index+1).lessons.length,0),0);
 const curriculumTotal=document.querySelector('#curriculumTotal');
@@ -137,7 +139,8 @@ if(curriculumTotal)curriculumTotal.textContent=`${unitCount} 个单元 · ${tota
 document.querySelector('#resourceCount').textContent=String(resourceItems.length);
 setText('[data-route-outcome]',course.outcome);
 const outcomeList=document.querySelector('#outcomeList');
-outcomeList.innerHTML=(courseKey==='inference'?[{title:course.outcome}]:course.stages.slice(0,3)).map((stage,index)=>`<li><span aria-hidden="true">✓</span><span>${escapeHtml(courseKey==='inference'?stage.title:index===0?`理解${stage.title}的核心概念`:index===1?`完成${stage.title}相关实践`:`掌握${stage.title}并验证学习成果`)}</span></li>`).join('');
+outcomeList.innerHTML=(courseKey==='inference'?[{title:'了解什么是预训练、微调、模型。'},{title:'完成实践，了解数据处理、权重转换、训练和评估等操作。'}]:course.stages.slice(0,3)).map((stage,index)=>`<li><span aria-hidden="true">✓</span><span>${escapeHtml(courseKey==='inference'?stage.title:index===0?`理解${stage.title}的核心概念`:index===1?`完成${stage.title}相关实践`:`掌握${stage.title}并验证学习成果`)}</span></li>`).join('');
+if(courseKey==='inference')document.querySelector('.outcome-result').hidden=true;
 if(route)route.hidden=true;
 
 
