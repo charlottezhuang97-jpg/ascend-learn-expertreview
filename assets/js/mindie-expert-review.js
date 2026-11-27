@@ -69,7 +69,7 @@
     currentBoardPage=page;
     sections.forEach((section,i)=>{section.hidden=i!==0;section.classList.toggle('media-ready',i===0);});
     const el=sections[0];
-    const markup=`<div class="expert-board-copy iv-board-selectable"><h2 data-type-text="${esc(data.title)}" aria-label="${esc(data.title)}"></h2><ul>${data.lines.map(line=>`<li data-type-text="${esc(line)}" aria-label="${esc(line)}"></li>`).join('')}</ul><figure class="expert-board-figure${data.fullSlide?' expert-board-full-slide':''}"><img src="${root+data.diagram}" alt="${esc(data.alt)}"></figure></div>`;
+    const markup=window.MindIEThreeBoard?.markup(page)||`<div class="expert-board-copy iv-board-selectable"><h2 data-type-text="${esc(data.title)}" aria-label="${esc(data.title)}"></h2><ul>${data.lines.map(line=>`<li data-type-text="${esc(line)}" aria-label="${esc(line)}"></li>`).join('')}</ul><figure class="expert-board-figure${data.fullSlide?' expert-board-full-slide':''}"><img src="${root+data.diagram}" alt="${esc(data.alt)}"></figure></div>`;
     el.innerHTML=markup;
     const visibleBoard=document.querySelector('.iv-board-art');if(visibleBoard)visibleBoard.innerHTML=markup;
     document.getElementById('boardPageValue').textContent=`${page+1} / ${boards.length}`;
@@ -80,6 +80,7 @@
     document.querySelector('.learning-anchor>span').lastChild.textContent=`板书 ${String(page+1).padStart(2,'0')} · ${data.title}`;
     document.getElementById('boardSubtitle').textContent=data.title;
     el.scrollTop=0;
+    if(page<7&&window.MindIEThreeBoard){window.MindIEThreeBoard.render([el,visibleBoard].filter(Boolean),page,()=>token===typing);return;}
     const boardsToType=[el,visibleBoard].filter(Boolean),figures=boardsToType.map(board=>board.querySelector('figure'));
     figures.forEach(figure=>figure.hidden=true);
     const fill=()=>{boardsToType.forEach(board=>board.querySelectorAll('[data-type-text]').forEach(item=>item.textContent=item.dataset.typeText));figures.forEach(figure=>figure.hidden=false)};
