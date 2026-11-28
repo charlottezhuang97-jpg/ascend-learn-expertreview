@@ -7,7 +7,7 @@
 
   const stylesheet = document.createElement('link');
   stylesheet.rel = 'stylesheet';
-  stylesheet.href = new URL('../css/mindie-prompt-lab.css?v=5', document.currentScript.src).href;
+  stylesheet.href = new URL('../css/mindie-prompt-lab.css?v=6', document.currentScript.src).href;
   document.head.append(stylesheet);
 
   const check = '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m6 16 7 7L27 8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
@@ -36,7 +36,7 @@
         const icon = state === 'done' ? check : state === 'loading' ? loading : waiting;
         return `<li class="${state} lab-step-with-details"><details ${index===phase?'open':''}><summary aria-label="${label}：${state==='done'?'已完成':state==='loading'?'正在准备':'待开始'}"><span class="mindie-prompt-lab-status">${icon}</span><span class="mindie-prompt-lab-label">${label}</span><span class="mindie-prompt-lab-chevron" aria-hidden="true">⌄</span></summary>${index<3?`<div class="lab-step-body">${stepBodies[index]}</div>`:'<p class="lab-step-body">按下方命令示例发送文本生成请求，并核验返回结果。</p>'}</details></li>`;
       }).join('')}</ol>
-      ${phase >= 2 ? `<div class="mindie-prompt-lab-detail"><p><b>实验目标：</b><br>向执行请求所在实验环境的 127.0.0.1:1025/generate 发一次请求。</p><p><b>执行要点：</b><br>1、确认提示词与生成参数<br>2、发送一次请求<br>3、展示文本与检查响应</p><div class="mindie-prompt-acceptance"><b>达标结果</b><p>您能看到一段介绍Qwen2-7B功能的文字，它常以“介绍下Qwen2-7B 的参数和功能特点。Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和功能特点”开头。即为实验<strong class="mindie-success-word">成功</strong>。</p></div><div class="mindie-prompt-command-head"><b>命令示例：</b><button type="button" data-mindie-insert-command>一键置入</button></div><pre>${esc(window.MindIELab?.steps?.[7]?.code||'')}</pre></div>` : ''}
+      ${phase >= 2 ? `<div class="mindie-prompt-lab-detail"><p><b>实验目标：</b><br>向执行请求所在实验环境的 127.0.0.1:1025/generate 发一次请求。</p><p><b>执行要点：</b><br>1、确认提示词与生成参数<br>2、发送一次请求<br>3、展示文本与检查响应</p><div class="mindie-prompt-command-head"><b>命令示例：</b><button type="button" data-mindie-insert-command>一键置入</button></div><pre>${esc(window.MindIELab?.steps?.[7]?.code||'')}</pre><div class="mindie-prompt-acceptance"><div class="mindie-prompt-check-head"><b>达标结果</b><button type="button" data-mindie-check-result>一键检测</button></div><p>您能看到一段介绍Qwen2-7B功能的文字，它常以“介绍下Qwen2-7B 的参数和功能特点。Qwen2-7B是一款基于GPT-2模型的大型语言模型，具有以下参数和功能特点”开头。即为实验<strong class="mindie-success-word">成功</strong>。</p><p class="mindie-result-feedback" role="status" aria-live="polite" hidden></p></div></div>` : ''}
       </div>
     </section>`;
   }
@@ -70,8 +70,50 @@
 
   window.MindIEPromptLab={start,preview:()=>{activeRun++;assistant.showHome();window.MindIEExperimentWorkspace?.progress(-1);}};
 
+  let stopCelebration=null;
+  function celebrate(){
+    stopCelebration?.();
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    const canvas=document.createElement('canvas');canvas.className='mindie-celebration';canvas.setAttribute('aria-hidden','true');document.body.append(canvas);
+    const context=canvas.getContext('2d');if(!context){canvas.remove();return;}
+    const width=innerWidth,height=innerHeight,dpr=Math.min(devicePixelRatio||1,2);
+    canvas.width=width*dpr;canvas.height=height*dpr;context.scale(dpr,dpr);
+    const colors=['#6d7cff','#aa7df5','#53c8bf','#ffd166','#fa8caa'];
+    const particles=Array.from({length:100},()=>({x:Math.random()*width,y:-40-Math.random()*height*.6,vx:(Math.random()-.5)*65,vy:85+Math.random()*100,size:5+Math.random()*5,angle:Math.random()*Math.PI,spin:(Math.random()-.5)*5,color:colors[Math.floor(Math.random()*colors.length)]}));
+    let frame,last=performance.now(),started=last;
+    const cleanup=()=>{cancelAnimationFrame(frame);canvas.remove();stopCelebration=null;};stopCelebration=cleanup;
+    function draw(now){
+      const delta=Math.min((now-last)/1000,.05);last=now;context.clearRect(0,0,width,height);
+      const opacity=Math.min(1,(4200-(now-started))/800);
+      particles.forEach(p=>{p.x+=p.vx*delta;p.y+=p.vy*delta;p.angle+=p.spin*delta;context.save();context.globalAlpha=Math.max(0,opacity);context.translate(p.x,p.y);context.rotate(p.angle);context.fillStyle=p.color;context.fillRect(-p.size/2,-p.size/4,p.size,p.size/2);context.restore();});
+      if(now-started<4200)frame=requestAnimationFrame(draw);else cleanup();
+    }
+    frame=requestAnimationFrame(draw);
+  }
+  function resetExecution(root){
+    stopCelebration?.();
+    const step=root.closest('.mindie-prompt-lab-card')?.querySelector('ol>li:last-child');if(!step)return;
+    step.classList.remove('done','loading');step.classList.add('waiting');step.querySelector('.mindie-prompt-lab-status').innerHTML=waiting;step.querySelector('summary').setAttribute('aria-label','实验执行：待核验');
+  }
+  function checkResult(button){
+    resetExecution(button);
+    const card=button.closest('.mindie-prompt-acceptance'),feedback=card.querySelector('.mindie-result-feedback');
+    const output=document.querySelector('.ex-console-content .expert-terminal-response');
+    feedback.hidden=false;card.removeAttribute('data-result');
+    if(!output){feedback.textContent='尚未输出结果，请先一键置入命令，并在终端敲击回车。';return;}
+    let text='';
+    try{const copy=output.cloneNode(true);copy.querySelector('.expert-terminal-output-label')?.remove();const response=JSON.parse(copy.textContent.trim());if(Array.isArray(response))text=response.map(item=>typeof item.text==='string'?item.text:'').join('\n');}catch{}
+    const passed=text.startsWith('介绍下Qwen2-7B 的参数和功能特点。')&&text.includes('Qwen2-7B')&&text.includes('参数：')&&text.includes('功能特点：');
+    card.dataset.result=passed?'pass':'fail';
+    feedback.textContent=passed?'检测通过，文本生成结果符合本次实验的达标要求！':'检测未通过，请检查终端是否返回完整的 Qwen2-7B 参数与功能介绍。';
+    if(passed){const step=button.closest('.mindie-prompt-lab-card').querySelector('ol>li:last-child');step.classList.remove('waiting','loading');step.classList.add('done');step.querySelector('.mindie-prompt-lab-status').innerHTML=check;step.querySelector('summary').setAttribute('aria-label','实验执行：已完成');celebrate();}
+  }
+
   panel.addEventListener('click',event=>{
+    const checkButton=event.target.closest('[data-mindie-check-result]');if(checkButton){checkResult(checkButton);return;}
     const button=event.target.closest('[data-mindie-insert-command]');if(!button)return;
+    resetExecution(button);
+    const acceptance=button.closest('.mindie-prompt-lab-detail').querySelector('.mindie-prompt-acceptance');acceptance.removeAttribute('data-result');acceptance.querySelector('.mindie-result-feedback').hidden=true;
     const fixture=window.MindIEExpertSample;
     if(!fixture)return;
     document.querySelector('.ide-tabs [data-mindie-step="7"]')?.click();
