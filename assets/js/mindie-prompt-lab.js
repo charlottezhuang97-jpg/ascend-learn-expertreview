@@ -7,7 +7,7 @@
 
   const stylesheet = document.createElement('link');
   stylesheet.rel = 'stylesheet';
-  stylesheet.href = new URL('../css/mindie-prompt-lab.css?v=6', document.currentScript.src).href;
+  stylesheet.href = new URL('../css/mindie-prompt-lab.css?v=7', document.currentScript.src).href;
   document.head.append(stylesheet);
 
   const check = '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="m6 16 7 7L27 8" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
