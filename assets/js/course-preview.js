@@ -173,7 +173,7 @@ document.querySelector('#planButton')?.addEventListener('click',event=>{
   const button=event.currentTarget;
   const joined=button.dataset.joined==='true';
   button.dataset.joined=String(!joined);
-  button.innerHTML=joined?'＋ <span>加入计划</span>':'✓ <span>已加入计划</span>';
+  button.innerHTML=joined?'<img class="course-plan-icon" src="assets/images/course-detail/icons/plus.svg" width="16" height="16" alt=""><span>加入学习计划</span>':'<svg class="course-plan-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3 8 3.3 3.3L13 4.7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg><span>已加入计划</span>';
   button.setAttribute('aria-pressed',String(!joined));
 });
 document.querySelector('#customPlanButton')?.addEventListener('click',()=>document.querySelector('#planButton')?.click());
