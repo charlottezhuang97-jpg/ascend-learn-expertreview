@@ -9,7 +9,7 @@
 .inference-course .timeline-node,
 .inference-course .module-item:not(:first-child) .timeline-node{border-color:#e4e5e8;background:#f6f6f7;color:#a5a8ad}
 .inference-course .module-kicker{border-color:#e2e3e7;color:#777d87}
-.inference-course .outcome-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.inference-course .outcome-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:start}
 .inference-course .outcome-list li{max-width:none}
 
 /* Course detail refinements: one-line chapter action and neutral lesson rows. */
@@ -19,7 +19,7 @@
 .inference-course .unit-card .stage-unit,.inference-course .unit-card .stage-unit:nth-child(n){background:transparent}
 .inference-course .lesson-link{grid-template-columns:20px 34px minmax(0,1fr) auto 24px}
 .inference-course .lesson-play svg{display:block;width:18px;height:18px;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.inference-course .outcome-list li{min-height:66px;padding:16px;border:0;background:#f7f8fa;color:#30343b;font-size:14px;line-height:22px;align-items:flex-start}
+.inference-course .outcome-list li{min-height:0;height:auto;padding:10px 16px;border:0;background:#f7f8fa;color:#30343b;font-size:14px;line-height:22px;align-items:flex-start}
 .inference-course .outcome-result[hidden]{display:none}
 @media(max-width:640px){.inference-course .outcome-list{grid-template-columns:1fr}.module-description-row{align-items:flex-start;gap:12px}.module-description-row>p{font-size:12px;line-height:18px}.module-description-row .module-start{font-size:11px;padding:5px 10px}}
 
