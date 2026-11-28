@@ -120,7 +120,7 @@
   }
   showKnowledge(0);
   document.querySelector('.iv-course-name')?.replaceChildren(document.createTextNode('文本生成推理课程'));
-  const ivPart=document.querySelector('.iv-part-title');if(ivPart)ivPart.textContent='Part 1. 生成式AI基础知识';
+  const ivPart=document.querySelector('.iv-part-title');if(ivPart){ivPart.innerHTML='<span class="iv-chapter-number">1</span><span>生成式AI基础知识</span>';document.querySelector('.iv-course-header')?.append(ivPart);}
   document.querySelector('.iv-video-frame')?.setAttribute('aria-label','文本生成推理课程知识视频');
   document.querySelector('.iv-board-viewport')?.setAttribute('aria-label','生成式AI基础知识白板');
   const ivBack=document.querySelector('.iv-course-back');if(ivBack)ivBack.href='course-preview.html?course=inference';
